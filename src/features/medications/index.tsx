@@ -1,0 +1,11 @@
+import { StyleSheet, Text, View } from 'react-native'
+
+export default function Medications() {
+    return (
+        <View>
+            <Text>Medications</Text>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({})

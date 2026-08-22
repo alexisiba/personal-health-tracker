@@ -1,32 +1,87 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
-import { useColorScheme } from 'react-native';
-
-import { Colors } from '@/constants/theme';
+import MaterialDesignIcons from '@react-native-vector-icons/material-design-icons';
+import { Tabs } from 'expo-router';
 
 export default function AppTabs() {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
 
-  return (
-    <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}>
-      <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="explore">
-        <NativeTabs.Trigger.Label>Explore</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
-          renderingMode="template"
-        />
-      </NativeTabs.Trigger>
-    </NativeTabs>
-  );
+    return (
+        <Tabs
+            screenOptions={{
+                tabBarShowLabel: false,
+                tabBarIconStyle: {
+                    marginTop: 6, // Empuja el ícono hacia abajo
+                },
+                tabBarStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 8,
+                    shadowOpacity: 0.1
+                },
+            }}
+        >
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: 'Home',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialDesignIcons
+                            name={focused ? "home" : "home-outline"}
+                            size={30}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="medications"
+                options={{
+                    title: 'Medications',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialDesignIcons
+                            name={focused ? "medication" : "medication-outline"}
+                            size={30}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="appointments"
+                options={{
+                    title: 'Appointments',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialDesignIcons
+                            name={focused ? "clock" : "clock-outline"}
+                            size={30}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="directory"
+                options={{
+                    title: 'Directory',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialDesignIcons
+                            name={focused ? "contacts" : "contacts-outline"}
+                            size={30}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color, focused }) => (
+                        <MaterialDesignIcons
+                            name={focused ? "account" : "account-outline"}
+                            size={30}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+        </Tabs>
+    );
 }

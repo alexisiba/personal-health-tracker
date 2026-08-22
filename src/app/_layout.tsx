@@ -1,18 +1,43 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
-
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { AnimatedSplashOverlay } from "@/components/animated-icon";
+import { theme as customTheme } from "@/constants/theme";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "react-native";
+import { DefaultTheme, PaperProvider } from "react-native-paper";
+import { en, es, registerTranslation } from "react-native-paper-dates";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  registerTranslation("en", en);
+  registerTranslation("es", es);
+
+  const theme = {
+    ...DefaultTheme,
+    // Specify custom property in nested object
+    colors: {
+      ...DefaultTheme.colors,
+      ...customTheme.colors,
+    },
+  };
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <PaperProvider theme={theme}>
+      <StatusBar barStyle="dark-content" />
       <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          headerTintColor: "#000000",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "#000000", // Asegura el título en negro
+          },
+        }}
+      >
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </PaperProvider>
   );
 }
