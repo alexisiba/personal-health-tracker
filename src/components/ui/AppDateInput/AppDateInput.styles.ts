@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-export const appTextInputStyles = StyleSheet.create({
-  label: { marginBottom: 5 },
+export const appDateInputStyles = StyleSheet.create({
   outline: { borderColor: "lightgray" },
 });

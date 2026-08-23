@@ -1,13 +1,16 @@
 import AppDateInput from "@/components/ui/AppDateInput";
 import AppDropdown from "@/components/ui/AppDropdown";
 import AppTextInput from "@/components/ui/AppTextInput";
+import AppTextInputSuffix from "@/components/ui/AppTextInput/components/AppTextInputSuffix";
 import { colors } from "@/constants/theme";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
-import { TextInput as NativeTextInput, View } from "react-native";
+import { useRouter } from "expo-router";
+import { View } from "react-native";
 import { Button, Text, TouchableRipple } from "react-native-paper";
 import { registerFormStyles } from "./RegisterForm.styles";
 
 export default function RegisterForm() {
+  const router = useRouter();
   return (
     <View style={registerFormStyles.formContainer}>
       <View style={registerFormStyles.profileImageButtonContainer}>
@@ -39,7 +42,9 @@ export default function RegisterForm() {
         <AppDateInput
           label="Fecha de nacimiento"
           onChange={() => {}}
-          value={""}
+          value={undefined}
+          inputMode="end"
+          locale="es"
         />
         <AppDropdown
           label="Sexo"
@@ -51,46 +56,33 @@ export default function RegisterForm() {
           value=""
           onSelect={() => {}}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            flex: 1,
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <AppTextInput
-            label="Peso"
-            contentStyle={{ width: "100%", flex: 1 }}
-            render={(props) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  flex: 1,
-                  padding: 12,
-                }}
-              >
-                <NativeTextInput
-                  {...props}
-                  style={[props.style, { flex: 1, paddingRight: 5 }]}
-                />
-                <Text style={{ color: "gray", fontSize: 16 }}>Kg</Text>
-              </View>
-            )}
-          />
-          <AppTextInput label="Altura" />
+        <View style={registerFormStyles.formInputColumns}>
+          <View style={registerFormStyles.formInputColumn}>
+            <AppTextInput
+              label="Peso"
+              render={(props) => (
+                <AppTextInputSuffix text="Kg" renderProps={props} />
+              )}
+            />
+          </View>
+          <View style={registerFormStyles.formInputColumn}>
+            <AppTextInput
+              label="Altura"
+              render={(props) => (
+                <AppTextInputSuffix text="cm" renderProps={props} />
+              )}
+            />
+          </View>
         </View>
       </View>
-      <View style={{ paddingVertical: 20, gap: 10 }}>
+      <View style={registerFormStyles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => {}}
+          onPress={() => router.navigate("/(tabs)")}
           contentStyle={{ paddingVertical: 5 }}
         >
           Crear cuenta
         </Button>
-        <Text>Al continuar, aceptas nuestros términos y condiciones.</Text>
       </View>
     </View>
   );

@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { TextInput } from "react-native-paper";
-import { Dropdown, DropdownProps } from "react-native-paper-dropdown";
-
-interface AppDropdownProps extends Omit<DropdownProps, "label" | "mode"> {
-  label: string;
-}
+import { Dropdown } from "react-native-paper-dropdown";
+import { appDropdownStyles } from "./AppDropdown.styles";
+import { AppDropdownProps } from "./AppDropdown.types";
 
 export default function AppDropdown({ label, ...props }: AppDropdownProps) {
   const [isFocused, setIsFocused] = useState(false);
   return (
     <View>
-      <Text style={{ marginBottom: 5 }}>{label}</Text>
+      <Text style={appDropdownStyles.label}>{label}</Text>
       <Dropdown
         mode="outlined"
         CustomDropdownInput={(props) => (
@@ -19,7 +17,7 @@ export default function AppDropdown({ label, ...props }: AppDropdownProps) {
             {...props}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            outlineStyle={{ borderColor: "lightgray" }}
+            outlineStyle={appDropdownStyles.outline}
             right={
               isFocused ? (
                 <TextInput.Icon icon="menu-up" />
@@ -34,5 +32,3 @@ export default function AppDropdown({ label, ...props }: AppDropdownProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

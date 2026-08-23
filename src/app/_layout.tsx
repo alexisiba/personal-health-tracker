@@ -1,5 +1,5 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import { theme as customTheme } from "@/constants/theme";
+import { paperTheme } from "@/constants/theme";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "react-native";
@@ -17,7 +17,7 @@ export default function TabLayout() {
     // Specify custom property in nested object
     colors: {
       ...DefaultTheme.colors,
-      ...customTheme.colors,
+      ...paperTheme.colors,
     },
   };
 

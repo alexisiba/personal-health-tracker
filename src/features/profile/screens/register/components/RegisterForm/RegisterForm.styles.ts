@@ -14,7 +14,7 @@ export const registerFormStyles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: colors["inverse-primary"],
+    backgroundColor: colors.inversePrimary,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -23,4 +23,11 @@ export const registerFormStyles = StyleSheet.create({
   headTitle: { marginBottom: 10, textAlign: "center" },
   headDescription: { textAlign: "center" },
   form: { paddingVertical: 20, gap: 20 },
+  formInputColumns: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  formInputColumn: { flex: 1 },
+  buttonContainer: { paddingVertical: 20, gap: 10 },
 });

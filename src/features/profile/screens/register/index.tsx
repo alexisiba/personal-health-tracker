@@ -1,15 +1,40 @@
-import { StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RegisterForm from "./components/RegisterForm";
 
-export default function Register() {
+export default function RegisterScreen() {
   return (
-    <SafeAreaView>
-      <View style={{ padding: 10 }}>
-        <RegisterForm />
-      </View>
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <RegisterForm />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+
+  scrollContent: {
+    padding: 10,
+  },
+});

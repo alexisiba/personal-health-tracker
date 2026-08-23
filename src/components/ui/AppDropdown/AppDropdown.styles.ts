@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const appTextInputStyles = StyleSheet.create({
+export const appDropdownStyles = StyleSheet.create({
   label: { marginBottom: 5 },
   outline: { borderColor: "lightgray" },
 });

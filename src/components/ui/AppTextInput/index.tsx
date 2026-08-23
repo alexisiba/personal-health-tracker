@@ -5,11 +5,11 @@ import { AppTextInputProps } from "./AppTextInput.types";
 
 export default function AppTextInput({ label, ...props }: AppTextInputProps) {
   return (
-    <View style={appTextInputStyles.inputContainer}>
+    <View>
       <Text style={appTextInputStyles.label}>{label}</Text>
       <TextInput
         mode="outlined"
-        outlineStyle={{ borderColor: "lightgray" }}
+        outlineStyle={appTextInputStyles.outline}
         {...props}
       />
     </View>
