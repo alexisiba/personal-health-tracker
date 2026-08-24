@@ -6,14 +6,23 @@ export default function AppTabs() {
   return (
     <Tabs
       screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primary,
+        },
+        headerTitleStyle: {
+          color: colors.white,
+        },
         tabBarShowLabel: false,
         tabBarIconStyle: {
-          marginTop: 6, // Empuja el ícono hacia abajo
+          marginTop: 6,
         },
         tabBarStyle: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: colors.white,
           elevation: 8,
           shadowOpacity: 0.1,
+        },
+        sceneStyle: {
+          backgroundColor: colors.background,
         },
       }}
     >
@@ -72,6 +81,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="profile"
         options={{
+          headerShown: false,
           title: "Profile",
           tabBarIcon: ({ color, focused }) => (
             <MaterialDesignIcons

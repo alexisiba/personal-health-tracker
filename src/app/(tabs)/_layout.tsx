@@ -1,10 +1,5 @@
-import AppTabs from '@/components/app-tabs'
-import { StyleSheet } from 'react-native'
+import AppTabs from "@/components/navigation/AppTabs";
 
 export default function TabsLayout() {
-    return (
-        <AppTabs />
-    )
+  return <AppTabs />;
 }
-
-const styles = StyleSheet.create({})

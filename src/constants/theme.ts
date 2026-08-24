@@ -68,8 +68,24 @@ export const colors = {
   onTertiaryFixed: "#0e1e1e",
   onTertiaryFixedVariant: "#3a4a49",
 
+  // Basic Colors
+  white: "#ffffff",
+  black: "#000000",
+
+  // Grayscale Scale
+  gray50: "#fafafa",
+  gray100: "#f5f5f5",
+  gray200: "#eeeeee",
+  gray300: "#e0e0e0",
+  gray400: "#bdbdbd",
+  gray500: "#9e9e9e",
+  gray600: "#757575",
+  gray700: "#616161",
+  gray800: "#424242",
+  gray900: "#212121",
+
   // Background & Surface Variant
-  background: "#f3faff",
+  background: "#f6fffe",
   onBackground: "#071e27",
 };
 

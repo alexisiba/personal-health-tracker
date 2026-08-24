@@ -1,0 +1,18 @@
+{
+  "onboardingRegister": {
+    "description": "Enter your data to customize your health experience",
+    "form": {
+      "createAccount": "Create account",
+      "dob": "Date of birth",
+      "fullName": "Full name",
+      "sexAtBirth": "Sex assigned at birth",
+      "sexOptions": {
+        "female": "Female",
+        "intersexual": "Intersexual",
+        "male": "Male",
+        "preferNotSay": "Prefer not to say"
+      }
+    },
+    "title": "Create your profile"
+  }
+}

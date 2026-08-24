@@ -1,5 +1,6 @@
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { paperTheme } from "@/constants/theme";
+import "@/i18n";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "react-native";
@@ -25,16 +26,7 @@ export default function TabLayout() {
     <PaperProvider theme={theme}>
       <StatusBar barStyle="dark-content" />
       <AnimatedSplashOverlay />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          headerTintColor: "#000000",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "#000000", // Asegura el título en negro
-          },
-        }}
-      >
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="(tabs)" />
       </Stack>

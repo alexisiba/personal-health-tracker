@@ -1,16 +1,19 @@
+import AppButton from "@/components/ui/AppButton";
 import AppDateInput from "@/components/ui/AppDateInput";
 import AppDropdown from "@/components/ui/AppDropdown";
 import AppTextInput from "@/components/ui/AppTextInput";
-import AppTextInputSuffix from "@/components/ui/AppTextInput/components/AppTextInputSuffix";
 import { colors } from "@/constants/theme";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { Button, Text, TouchableRipple } from "react-native-paper";
+import { Text, TouchableRipple } from "react-native-paper";
+import { SEX_OPTIONS } from "./RegisterForm.constants";
 import { registerFormStyles } from "./RegisterForm.styles";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const { t } = useTranslation("profile");
   return (
     <View style={registerFormStyles.formContainer}>
       <View style={registerFormStyles.profileImageButtonContainer}>
@@ -27,62 +30,40 @@ export default function RegisterForm() {
       </View>
       <View style={registerFormStyles.headContainer}>
         <Text variant="headlineSmall" style={registerFormStyles.headTitle}>
-          Crea tu perfil
+          {t("onboardingRegister.title")}
         </Text>
         <Text variant="bodyLarge" style={registerFormStyles.headDescription}>
-          Ingresa tus datos para personalizar tu experiencia de salud.
+          {t("onboardingRegister.description")}
         </Text>
       </View>
       <View style={registerFormStyles.form}>
         <AppTextInput
-          label="Nombre completo *"
+          label={`${t("onboardingRegister.form.fullName")} *`}
           onChange={() => {}}
           outlineStyle={{ borderColor: "lightgray" }}
         />
         <AppDateInput
-          label="Fecha de nacimiento"
+          label={`${t("onboardingRegister.form.dob")} *`}
           onChange={() => {}}
           value={undefined}
           inputMode="end"
           locale="es"
         />
         <AppDropdown
-          label="Sexo"
-          options={[
-            { label: "Male", value: "male" },
-            { label: "Female", value: "female" },
-            { label: "Other", value: "other" },
-          ]}
+          label={`${t("onboardingRegister.form.sexAtBirth")} *`}
+          options={SEX_OPTIONS}
           value=""
           onSelect={() => {}}
         />
-        <View style={registerFormStyles.formInputColumns}>
-          <View style={registerFormStyles.formInputColumn}>
-            <AppTextInput
-              label="Peso"
-              render={(props) => (
-                <AppTextInputSuffix text="Kg" renderProps={props} />
-              )}
-            />
-          </View>
-          <View style={registerFormStyles.formInputColumn}>
-            <AppTextInput
-              label="Altura"
-              render={(props) => (
-                <AppTextInputSuffix text="cm" renderProps={props} />
-              )}
-            />
-          </View>
-        </View>
       </View>
       <View style={registerFormStyles.buttonContainer}>
-        <Button
+        <AppButton
           mode="contained"
           onPress={() => router.navigate("/(tabs)")}
           contentStyle={{ paddingVertical: 5 }}
         >
-          Crear cuenta
-        </Button>
+          {t("onboardingRegister.form.createAccount")}
+        </AppButton>
       </View>
     </View>
   );
