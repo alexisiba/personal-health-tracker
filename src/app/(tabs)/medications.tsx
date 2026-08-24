@@ -1,11 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
+import Medications from "@/features/medications";
+import { StyleSheet } from "react-native";
 
-export default function Medications() {
-  return (
-    <View>
-      <Text>Medications</Text>
-    </View>
-  )
+export default function MedicationsScreen() {
+  return <Medications />;
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

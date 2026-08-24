@@ -1,10 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-export default function Appointments() {
-    return (
-        <View>
-            <Text>Appointments</Text>
-        </View>
-    )
-}
+import Appointments from "@/features/appointments";
 
-const styles = StyleSheet.create({})
+export default function AppointmentsScreen() {
+  return <Appointments />;
+}
