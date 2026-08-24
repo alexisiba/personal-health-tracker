@@ -33,10 +33,9 @@ export default function CompleteHealthProfile() {
         mode="contained"
         onPress={() => {
           router.navigate("/profile");
-          //   router.navigate("/profile/profile-form-selection");
         }}
       >
-        Completar perfil de salud
+        Ir al perfil
       </AppButton>
     </View>
   );

@@ -12,6 +12,9 @@ export default function ProfileLayout() {
           color: colors.white,
         },
         headerTintColor: colors.white,
+        contentStyle: {
+          backgroundColor: colors.background,
+        },
       }}
     >
       <Stack.Screen

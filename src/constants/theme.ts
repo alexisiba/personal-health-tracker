@@ -48,10 +48,41 @@ export const colors = {
   tertiaryContainer: "#617271",
   onTertiaryContainer: "#e5f7f6",
 
+  // Error
   error: "#ba1a1a",
   onError: "#ffffff",
   errorContainer: "#ffdad6",
   onErrorContainer: "#93000a",
+  errorBg: "#ffebee",
+  errorFocus: "#ef9a9a",
+  errorBorderline: "#c62828",
+
+  // Success
+  success: "#2e7d32",
+  onSuccess: "#ffffff",
+  successContainer: "#c8e6c9",
+  onSuccessContainer: "#1b5e20",
+  successBg: "#e8f5e9",
+  successFocus: "#a5d6a7",
+  successBorderline: "#2e7d32",
+
+  // Warning
+  warning: "#f57c00",
+  onWarning: "#ffffff",
+  warningContainer: "#ffe0b2",
+  onWarningContainer: "#3e2723",
+  warningBg: "#fffaf1",
+  warningFocus: "#ffcc80",
+  warningBorderline: "#f57c00",
+
+  // Info
+  info: "#1976d2",
+  onInfo: "#ffffff",
+  infoContainer: "#bbdefb",
+  onInfoContainer: "#0d47a1",
+  infoBg: "#e3f2fd",
+  infoFocus: "#90caf9",
+  infoBorderline: "#1976d2",
 
   primaryFixed: "#96f1fc",
   primaryFixedDim: "#7ad4df",
@@ -139,6 +170,33 @@ export const paperTheme = {
     onError: colors.onError,
     errorContainer: colors.errorContainer,
     onErrorContainer: colors.onErrorContainer,
+    errorBg: colors.errorBg,
+    errorFocus: colors.errorFocus,
+    errorBorderline: colors.errorBorderline,
+
+    success: colors.success,
+    onSuccess: colors.onSuccess,
+    successContainer: colors.successContainer,
+    onSuccessContainer: colors.onSuccessContainer,
+    successBg: colors.successBg,
+    successFocus: colors.successFocus,
+    successBorderline: colors.successBorderline,
+
+    warning: colors.warning,
+    onWarning: colors.onWarning,
+    warningContainer: colors.warningContainer,
+    onWarningContainer: colors.onWarningContainer,
+    warningBg: colors.warningBg,
+    warningFocus: colors.warningFocus,
+    warningBorderline: colors.warningBorderline,
+
+    info: colors.info,
+    onInfo: colors.onInfo,
+    infoContainer: colors.infoContainer,
+    onInfoContainer: colors.onInfoContainer,
+    infoBg: colors.infoBg,
+    infoFocus: colors.infoFocus,
+    infoBorderline: colors.infoBorderline,
 
     // Disabled States
     surfaceDisabled: colors.surfaceDisabled,
