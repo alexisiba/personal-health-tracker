@@ -18,12 +18,16 @@
       "description": "Register your medications to get timely reminders, track your doses, and keep your health under control effortlessly.",
       "actionLabel": "Add medication"
     },
+    "markAsTakenLabel": "Mark as taken",
+    "markAsTakenErrorTitle": "Couldn't update the dose",
+    "markAsTakenErrorMessage": "Something went wrong while updating this medication. Please try again.",
     "nextMedication": {
-      "heading": "Next medication",
-      "nextDoseLabel": "Next dose",
-      "markAsTakenLabel": "Mark as taken",
-      "markAsTakenErrorTitle": "Couldn't update the dose",
-      "markAsTakenErrorMessage": "Something went wrong while updating this medication. Please try again."
+      "heading": "Upcoming medications",
+      "nextDoseLabel": "Next dose"
+    },
+    "asNeededMedication": {
+      "lastDoseLabel": "Last dose",
+      "noLastDoseValue": "-"
     },
     "scheduledEmpty": {
       "title": "No scheduled medications",
@@ -33,7 +37,6 @@
       "title": "No as-needed medications",
       "description": "Register a medication you take as needed to keep track of it here."
     },
-    "nonScheduledPlaceholder": "This view is coming soon",
     "doseLabel": "Dose",
     "frequencyLabel": "Frequency",
     "firstDoseLabel": "First dose",

@@ -18,12 +18,16 @@
       "description": "Registra tus medicamentos para recibir recordatorios oportunos, realizar un seguimiento de tus dosis y mantener tu salud bajo control sin esfuerzo.",
       "actionLabel": "Agregar medicamento"
     },
+    "markAsTakenLabel": "Marcar como tomado",
+    "markAsTakenErrorTitle": "No se pudo actualizar la dosis",
+    "markAsTakenErrorMessage": "Algo salió mal al actualizar este medicamento. Por favor, inténtalo de nuevo.",
     "nextMedication": {
-      "heading": "Próximo medicamento",
-      "nextDoseLabel": "Próxima dosis",
-      "markAsTakenLabel": "Marcar como tomado",
-      "markAsTakenErrorTitle": "No se pudo actualizar la dosis",
-      "markAsTakenErrorMessage": "Algo salió mal al actualizar este medicamento. Por favor, inténtalo de nuevo."
+      "heading": "Próximos medicamentos",
+      "nextDoseLabel": "Próxima dosis"
+    },
+    "asNeededMedication": {
+      "lastDoseLabel": "Última dosis",
+      "noLastDoseValue": "-"
     },
     "scheduledEmpty": {
       "title": "No tienes medicamentos programados",
@@ -33,7 +37,6 @@
       "title": "No tienes medicamentos según sea necesario",
       "description": "Registra un medicamento que tomes según sea necesario para llevar el control aquí."
     },
-    "nonScheduledPlaceholder": "Esta vista estará disponible próximamente",
     "doseLabel": "Dosis",
     "frequencyLabel": "Frecuencia",
     "firstDoseLabel": "Primera dosis",

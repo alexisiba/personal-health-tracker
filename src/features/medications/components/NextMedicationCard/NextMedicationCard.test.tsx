@@ -6,7 +6,7 @@ import "@/i18n";
 import { NextMedicationCard } from ".";
 
 describe("NextMedicationCard", () => {
-  it("renders the medication's name, dose, type, and next dose time", async () => {
+  it("renders the medication's name, dose, type, and next dose date/time", async () => {
     await render(
       <NextMedicationCard
         medication={{ name: "Ibuprofeno", doseQuantity: 1, doseUnit: "tablet", type: "scheduled" }}
@@ -18,7 +18,22 @@ describe("NextMedicationCard", () => {
     expect(screen.getByText("Ibuprofeno")).toBeOnTheScreen();
     expect(screen.getByText("1 Tablet")).toBeOnTheScreen();
     expect(screen.getByText("Scheduled")).toBeOnTheScreen();
-    expect(screen.getByText("02:00 PM")).toBeOnTheScreen();
+    expect(screen.getByText("1/1/2024, 02:00 PM")).toBeOnTheScreen();
+  });
+
+  it("shows the 'Today' label when the next dose is today", async () => {
+    const today = new Date();
+    today.setHours(14, 0, 0, 0);
+
+    await render(
+      <NextMedicationCard
+        medication={{ name: "Ibuprofeno", doseQuantity: 1, doseUnit: "tablet", type: "scheduled" }}
+        nextDoseDate={today}
+        onMarkAsTaken={jest.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Today, 02:00 PM")).toBeOnTheScreen();
   });
 
   it("pluralizes the dose unit label for a quantity greater than one", async () => {

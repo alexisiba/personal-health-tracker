@@ -4,15 +4,14 @@ import { CardHeader } from "@/components/ui/Card/CardHeader";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { useTranslation } from "react-i18next";
-import { nextMedicationCardStyles } from "./NextMedicationCard.styles";
-import { NextMedicationCardProps } from "./NextMedicationCard.types";
-import { formatDoseDateLabel, formatDoseTime } from "./NextMedicationCard.utils";
+import { asNeededMedicationCardStyles } from "./AsNeededMedicationCard.styles";
+import { AsNeededMedicationCardProps } from "./AsNeededMedicationCard.types";
+import { formatLastDoseDate } from "./AsNeededMedicationCard.utils";
 
-export function NextMedicationCard({
+export function AsNeededMedicationCard({
   medication,
-  nextDoseDate,
   onMarkAsTaken,
-}: NextMedicationCardProps) {
+}: AsNeededMedicationCardProps) {
   const {
     t,
     i18n: { language: locale },
@@ -21,32 +20,33 @@ export function NextMedicationCard({
   const doseUnitLabel = t(`doseUnits.${medication.doseUnit}`, {
     count: medication.doseQuantity,
   });
-  const typeLabel = t(
-    `addMedicationForm.options.${medication.type === "scheduled" ? "scheduled" : "nonScheduled"}`,
-  );
+  const typeLabel = t("addMedicationForm.options.nonScheduled");
+  const lastDoseValue = medication.lastTakenAt
+    ? formatLastDoseDate(medication.lastTakenAt, locale, t)
+    : t("list.asNeededMedication.noLastDoseValue");
 
   return (
     <Card>
       <CardHeader>
-        <View style={nextMedicationCardStyles.headerRow}>
+        <View style={asNeededMedicationCardStyles.headerRow}>
           <View>
             <Text variant="headlineSmall" style={{ fontWeight: "bold" }}>
               {medication.name}
             </Text>
-            <Text style={nextMedicationCardStyles.doseText}>
+            <Text style={asNeededMedicationCardStyles.doseText}>
               {medication.doseQuantity} {doseUnitLabel}
             </Text>
           </View>
-          <Text style={nextMedicationCardStyles.typeText}>{typeLabel}</Text>
+          <Text style={asNeededMedicationCardStyles.typeText}>{typeLabel}</Text>
         </View>
       </CardHeader>
-      <View style={nextMedicationCardStyles.nextDoseRow}>
+      <View style={asNeededMedicationCardStyles.lastDoseRow}>
         <View>
-          <Text style={nextMedicationCardStyles.nextDoseLabel}>
-            {t("list.nextMedication.nextDoseLabel")}
+          <Text style={asNeededMedicationCardStyles.lastDoseLabel}>
+            {t("list.asNeededMedication.lastDoseLabel")}
           </Text>
-          <Text variant="titleLarge" style={nextMedicationCardStyles.nextDoseTime}>
-            {formatDoseDateLabel(nextDoseDate, locale, t)}, {formatDoseTime(nextDoseDate, locale)}
+          <Text variant="titleLarge" style={asNeededMedicationCardStyles.lastDoseValue}>
+            {lastDoseValue}
           </Text>
         </View>
         <AppButton mode="contained" onPress={onMarkAsTaken}>

@@ -5,6 +5,10 @@
   "database": {
     "migrationError": "No pudimos configurar la base de datos local: {{message}}"
   },
+  "dateLabels": {
+    "today": "Hoy",
+    "tomorrow": "Mañana"
+  },
   "timePicker": {
     "label": "Seleccionar hora",
     "cancelLabel": "Cancelar",

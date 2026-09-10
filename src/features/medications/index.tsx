@@ -8,8 +8,10 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View } from "react-native";
 import { ActivityIndicator, Text } from "react-native-paper";
+import { AsNeededMedicationCard } from "./components/AsNeededMedicationCard";
 import { NextMedicationCard } from "./components/NextMedicationCard";
 import { FORM_OPTIONS } from "./Forms/Forms.constants";
+import { getUpcomingAsNeededMedications, getUpcomingScheduledMedications } from "./Medications.helpers";
 
 export default function Medications() {
   const router = useRouter();
@@ -29,10 +31,7 @@ export default function Medications() {
     try {
       await markMedicationAsTaken(id);
     } catch {
-      Alert.alert(
-        t("list.nextMedication.markAsTakenErrorTitle"),
-        t("list.nextMedication.markAsTakenErrorMessage"),
-      );
+      Alert.alert(t("list.markAsTakenErrorTitle"), t("list.markAsTakenErrorMessage"));
     }
   };
 
@@ -67,12 +66,8 @@ export default function Medications() {
     (medication) => medication.type === "non-scheduled",
   );
 
-  // The real "which dose is coming up next" schedule computation doesn't
-  // exist yet — as a placeholder, show the first scheduled medication using
-  // its firstDoseDate as the next dose time.
-  const nextMedication = scheduledMedications.find(
-    (medication) => medication.firstDoseDate,
-  );
+  const upcomingScheduledMedications = getUpcomingScheduledMedications(scheduledMedications);
+  const upcomingAsNeededMedications = getUpcomingAsNeededMedications(nonScheduledMedications);
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString(locale, {
@@ -104,16 +99,21 @@ export default function Medications() {
               actionLabel={t("list.empty.actionLabel")}
               onButtonPress={goToAddMedicationForm}
             />
-          ) : nextMedication ? (
+          ) : upcomingScheduledMedications.length > 0 ? (
             <View>
               <Text variant="titleLarge" style={{ fontWeight: "bold", marginBottom: spacing.sm }}>
                 {t("list.nextMedication.heading")}
               </Text>
-              <NextMedicationCard
-                medication={nextMedication}
-                nextDoseDate={nextMedication.nextDoseDate ?? nextMedication.firstDoseDate!}
-                onMarkAsTaken={() => handleMarkAsTaken(nextMedication.id)}
-              />
+              <View style={{ gap: spacing.sm }}>
+                {upcomingScheduledMedications.map((medication) => (
+                  <NextMedicationCard
+                    key={medication.id}
+                    medication={medication}
+                    nextDoseDate={medication.nextDoseDate ?? medication.firstDoseDate!}
+                    onMarkAsTaken={() => handleMarkAsTaken(medication.id)}
+                  />
+                ))}
+              </View>
             </View>
           ) : null
         ) : nonScheduledMedications.length === 0 ? (
@@ -125,7 +125,15 @@ export default function Medications() {
             onButtonPress={goToAddMedicationForm}
           />
         ) : (
-          <Text>{t("list.nonScheduledPlaceholder")}</Text>
+          <View style={{ gap: spacing.sm }}>
+            {upcomingAsNeededMedications.map((medication) => (
+              <AsNeededMedicationCard
+                key={medication.id}
+                medication={medication}
+                onMarkAsTaken={() => handleMarkAsTaken(medication.id)}
+              />
+            ))}
+          </View>
         )}
       </View>
     </View>

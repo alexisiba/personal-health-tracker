@@ -1,11 +1,7 @@
 import type { TFunction } from "i18next";
 import { getRelativeDateLabel } from "../../Medications.utils";
 
-export function formatDoseTime(date: Date, locale: string) {
-  return date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
-}
-
-export function formatDoseDateLabel(
+export function formatLastDoseDate(
   date: Date,
   locale: string,
   t: TFunction<["medications", "common"], undefined>,
