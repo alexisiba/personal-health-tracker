@@ -3,6 +3,7 @@ import { AppDateInput } from "@/components/ui/AppDateInput";
 import { AppDropdown } from "@/components/ui/AppDropdown";
 import { AppTextInput } from "@/components/ui/AppTextInput";
 import colors from "@/constants/colors";
+import { createUser } from "@/db/queries/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { Image } from "expo-image";
@@ -16,12 +17,17 @@ import { SEX_OPTIONS } from "./RegisterForm.constants";
 import { registerFormSchema } from "./RegisterForm.schemas";
 import { registerFormStyles } from "./RegisterForm.styles";
 import { RegisterFormData } from "./RegisterForm.types";
+import { copyProfileImageToPersistentStorage } from "./RegisterForm.utils";
 
 export default function RegisterForm() {
   const router = useRouter();
   const { t } = useTranslation("profile");
 
-  const { control, handleSubmit } = useForm<RegisterFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       name: "",
@@ -37,9 +43,27 @@ export default function RegisterForm() {
     name: "profileImageUri",
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log("Datos validados y listos:", data);
-    router.navigate("/(tabs)");
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const profileImageUri = data.profileImageUri
+        ? await copyProfileImageToPersistentStorage(data.profileImageUri)
+        : undefined;
+
+      await createUser({
+        name: data.name,
+        lastName: data.lastName,
+        dateOfBirth: data.dob,
+        sexAtBirth: data.sexAtBirth,
+        profileImageUri,
+      });
+
+      router.navigate("/(tabs)");
+    } catch {
+      Alert.alert(
+        t("onboardingRegister.form.errors.saveFailedTitle"),
+        t("onboardingRegister.form.errors.saveFailedMessage"),
+      );
+    }
   };
 
   const applyPickedImage = (result: ImagePicker.ImagePickerResult) => {
@@ -149,12 +173,14 @@ export default function RegisterForm() {
           name="name"
           label={`${t("onboardingRegister.form.name")} *`}
           outlineStyle={{ borderColor: "lightgray" }}
+          testID="name-input"
         />
         <AppTextInput
           control={control}
           name="lastName"
           label={`${t("onboardingRegister.form.lastName")} *`}
           outlineStyle={{ borderColor: "lightgray" }}
+          testID="last-name-input"
         />
         <AppDateInput
           control={control}
@@ -162,19 +188,22 @@ export default function RegisterForm() {
           label={`${t("onboardingRegister.form.dob")} *`}
           inputMode="end"
           locale="es"
+          testID="dob-input"
         />
         <AppDropdown
           control={control}
           name="sexAtBirth"
           label={`${t("onboardingRegister.form.sexAtBirth")} *`}
           options={SEX_OPTIONS}
+          testID="sex-at-birth-dropdown"
         />
       </View>
       <View style={registerFormStyles.buttonContainer}>
         <AppButton
           mode="contained"
-          onPress={() => router.navigate("/(tabs)")}
-          // onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(onSubmit)}
+          loading={isSubmitting}
+          disabled={isSubmitting}
           contentStyle={{ paddingVertical: 5 }}
         >
           {t("onboardingRegister.form.createAccount")}

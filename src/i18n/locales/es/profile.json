@@ -24,6 +24,10 @@
         "permissionDeniedTitle": "Permiso necesario",
         "photosPermissionDeniedMessage": "Activa el acceso a tus fotos desde los ajustes del dispositivo para elegir una imagen de perfil.",
         "cameraPermissionDeniedMessage": "Activa el acceso a la cámara desde los ajustes del dispositivo para tomar una foto de perfil."
+      },
+      "errors": {
+        "saveFailedTitle": "No se pudo guardar tu perfil",
+        "saveFailedMessage": "Algo salió mal al guardar tu información. Por favor, inténtalo de nuevo."
       }
     },
     "title": "Crear tu perfil"

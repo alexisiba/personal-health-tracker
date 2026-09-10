@@ -1,7 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-// Matches RegisterForm.constants.ts's SEX_OPTIONS values — kept in sync by
-// hand for now, since this table isn't wired to that form yet.
+// RegisterForm.schemas.ts's zod schema validates against this same array, and
+// RegisterForm.constants.ts's SEX_OPTIONS values are kept in sync with it by hand.
 export const SEX_AT_BIRTH_VALUES = [
   "male",
   "female",

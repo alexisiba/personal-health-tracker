@@ -9,8 +9,9 @@ import RegisterForm from ".";
 // app does this once in src/app/_layout.tsx, which tests don't render.
 registerTranslation("en", en);
 
+const mockNavigate = jest.fn();
 jest.mock("expo-router", () => ({
-  useRouter: () => ({ navigate: jest.fn() }),
+  useRouter: () => ({ navigate: mockNavigate }),
 }));
 
 jest.mock("expo-image-picker", () => ({
@@ -19,6 +20,42 @@ jest.mock("expo-image-picker", () => ({
   launchCameraAsync: jest.fn(),
   launchImageLibraryAsync: jest.fn(),
 }));
+
+const mockCreateUser = jest.fn();
+jest.mock("@/db/queries/users", () => ({
+  // Wrapped in an arrow function so `mockCreateUser` is only read once it's
+  // actually called (during a test), not when this factory itself runs —
+  // which happens as soon as RegisterForm's own module loads, before the
+  // `const mockCreateUser = jest.fn()` above it has executed.
+  createUser: (...args: unknown[]) => mockCreateUser(...args),
+}));
+
+// expo-file-system's File/Directory need real native modules; only the shape
+// used by RegisterForm.utils.ts (new File(uri).name, new File(dir, name).uri,
+// File#copy, Directory#create) needs to be faked here.
+jest.mock("expo-file-system", () => {
+  class MockDirectory {
+    create() {}
+  }
+
+  class MockFile {
+    uri: string;
+    name: string;
+    copy = jest.fn().mockResolvedValue(undefined);
+
+    constructor(...parts: unknown[]) {
+      const last = parts[parts.length - 1];
+      this.name = typeof last === "string" ? last.split("/").pop()! : "unknown";
+      this.uri = `file:///document/profile-images/${this.name}`;
+    }
+  }
+
+  return {
+    Directory: MockDirectory,
+    File: MockFile,
+    Paths: { document: "file:///document/" },
+  };
+});
 
 // See AppDropdown.test.tsx: react-native-paper-dropdown's real Menu never
 // finishes opening in this test renderer (its useNativeDriver animation
@@ -90,6 +127,8 @@ describe("RegisterForm", () => {
     mockRequestLibraryPermissions.mockReset();
     mockLaunchCamera.mockReset();
     mockLaunchLibrary.mockReset();
+    mockNavigate.mockReset();
+    mockCreateUser.mockReset();
     alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
   });
 
@@ -187,5 +226,60 @@ describe("RegisterForm", () => {
 
     await waitFor(() => expect(mockLaunchLibrary).toHaveBeenCalledTimes(1));
     expect(screen.queryByTestId("profile-image")).not.toBeOnTheScreen();
+  });
+
+  it("copies the picked photo, saves the user, and navigates to the tabs on submit", async () => {
+    mockCreateUser.mockResolvedValue({ id: 1 });
+    mockRequestCameraPermissions.mockResolvedValue({ granted: true });
+    mockLaunchCamera.mockResolvedValue({
+      canceled: false,
+      assets: [{ uri: "file:///cache/camera-photo.jpg" }],
+    });
+
+    await renderForm();
+
+    await fireEvent.press(screen.getByLabelText("Choose profile photo"));
+    pressAlertButton(alertSpy, "Take photo");
+    await screen.findByTestId("profile-image");
+
+    await fireEvent.changeText(screen.getByTestId("name-input"), "Ana");
+    await fireEvent.changeText(screen.getByTestId("last-name-input"), "Gómez");
+    await fireEvent.changeText(screen.getByTestId("dob-input"), "15/06/1990");
+    await fireEvent.press(screen.getByTestId("sex-at-birth-dropdown"));
+    await fireEvent.press(screen.getByText("Female"));
+
+    await fireEvent.press(screen.getByText("Create account"));
+
+    await waitFor(() => expect(mockCreateUser).toHaveBeenCalledTimes(1));
+    expect(mockCreateUser).toHaveBeenCalledWith({
+      name: "Ana",
+      lastName: "Gómez",
+      dateOfBirth: new Date(1990, 5, 15, 23, 59, 59),
+      sexAtBirth: "female",
+      profileImageUri: expect.stringContaining("camera-photo.jpg"),
+    });
+    expect(mockNavigate).toHaveBeenCalledWith("/(tabs)");
+  });
+
+  it("shows an error alert and does not navigate when saving the user fails", async () => {
+    mockCreateUser.mockRejectedValue(new Error("insert failed"));
+
+    await renderForm();
+
+    await fireEvent.changeText(screen.getByTestId("name-input"), "Ana");
+    await fireEvent.changeText(screen.getByTestId("last-name-input"), "Gómez");
+    await fireEvent.changeText(screen.getByTestId("dob-input"), "15/06/1990");
+    await fireEvent.press(screen.getByTestId("sex-at-birth-dropdown"));
+    await fireEvent.press(screen.getByText("Female"));
+
+    await fireEvent.press(screen.getByText("Create account"));
+
+    await waitFor(() =>
+      expect(alertSpy).toHaveBeenLastCalledWith(
+        "Couldn't save your profile",
+        "Something went wrong while saving your information. Please try again.",
+      ),
+    );
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

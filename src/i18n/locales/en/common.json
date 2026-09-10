@@ -1,5 +1,8 @@
 {
   "form": {
     "required": "Required field"
+  },
+  "database": {
+    "migrationError": "We couldn't set up the local database: {{message}}"
   }
 }

@@ -24,6 +24,10 @@
         "permissionDeniedTitle": "Permission needed",
         "photosPermissionDeniedMessage": "Enable photo access from the device settings to choose a profile picture.",
         "cameraPermissionDeniedMessage": "Enable camera access from the device settings to take a profile picture."
+      },
+      "errors": {
+        "saveFailedTitle": "Couldn't save your profile",
+        "saveFailedMessage": "Something went wrong while saving your information. Please try again."
       }
     },
     "title": "Create your profile"
