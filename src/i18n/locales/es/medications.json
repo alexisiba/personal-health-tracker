@@ -22,6 +22,14 @@
       "nextDoseLabel": "Próxima dosis",
       "markAsTakenLabel": "Marcar como tomado"
     },
+    "scheduledEmpty": {
+      "title": "No tienes medicamentos programados",
+      "description": "Registra un medicamento con un horario fijo para recibir recordatorios oportunos y llevar el seguimiento de tus próximas dosis."
+    },
+    "nonScheduledEmpty": {
+      "title": "No tienes medicamentos según sea necesario",
+      "description": "Registra un medicamento que tomes según sea necesario para llevar el control aquí."
+    },
     "nonScheduledPlaceholder": "Esta vista estará disponible próximamente",
     "doseLabel": "Dosis",
     "frequencyLabel": "Frecuencia",

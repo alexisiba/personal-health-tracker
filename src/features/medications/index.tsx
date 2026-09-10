@@ -22,6 +22,9 @@ export default function Medications() {
     "scheduled",
   );
 
+  const goToAddMedicationForm = () =>
+    router.navigate("/(tabs)/medications/add-medication-form");
+
   if (medications.length === 0) {
     return (
       <View style={{ padding: spacing.lg }}>
@@ -30,19 +33,24 @@ export default function Medications() {
           title={t("list.empty.title")}
           description={t("list.empty.description")}
           actionLabel={t("list.empty.actionLabel")}
-          onButtonPress={() =>
-            router.navigate("/(tabs)/medications/add-medication-form")
-          }
+          onButtonPress={goToAddMedicationForm}
         />
       </View>
     );
   }
 
+  const scheduledMedications = medications.filter(
+    (medication) => medication.type === "scheduled",
+  );
+  const nonScheduledMedications = medications.filter(
+    (medication) => medication.type === "non-scheduled",
+  );
+
   // The real "which dose is coming up next" schedule computation doesn't
   // exist yet — as a placeholder, show the first scheduled medication using
   // its firstDoseDate as the next dose time.
-  const nextMedication = medications.find(
-    (medication) => medication.type === "scheduled" && medication.firstDoseDate,
+  const nextMedication = scheduledMedications.find(
+    (medication) => medication.firstDoseDate,
   );
 
   const today = new Date();
@@ -67,7 +75,15 @@ export default function Medications() {
       />
       <View style={{ marginTop: spacing.xxl }}>
         {selectedType === "scheduled" ? (
-          nextMedication ? (
+          scheduledMedications.length === 0 ? (
+            <EmptyState
+              icon="calendar-clock"
+              title={t("list.scheduledEmpty.title")}
+              description={t("list.scheduledEmpty.description")}
+              actionLabel={t("list.empty.actionLabel")}
+              onButtonPress={goToAddMedicationForm}
+            />
+          ) : nextMedication ? (
             <View>
               <Text variant="titleLarge" style={{ fontWeight: "bold", marginBottom: spacing.sm }}>
                 {t("list.nextMedication.heading")}
@@ -79,6 +95,14 @@ export default function Medications() {
               />
             </View>
           ) : null
+        ) : nonScheduledMedications.length === 0 ? (
+          <EmptyState
+            icon="pill"
+            title={t("list.nonScheduledEmpty.title")}
+            description={t("list.nonScheduledEmpty.description")}
+            actionLabel={t("list.empty.actionLabel")}
+            onButtonPress={goToAddMedicationForm}
+          />
         ) : (
           <Text>{t("list.nonScheduledPlaceholder")}</Text>
         )}

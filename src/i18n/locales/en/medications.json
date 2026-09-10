@@ -22,6 +22,14 @@
       "nextDoseLabel": "Next dose",
       "markAsTakenLabel": "Mark as taken"
     },
+    "scheduledEmpty": {
+      "title": "No scheduled medications",
+      "description": "Register a medication with a fixed schedule to get timely reminders and track your next doses."
+    },
+    "nonScheduledEmpty": {
+      "title": "No as-needed medications",
+      "description": "Register a medication you take as needed to keep track of it here."
+    },
     "nonScheduledPlaceholder": "This view is coming soon",
     "doseLabel": "Dose",
     "frequencyLabel": "Frequency",
