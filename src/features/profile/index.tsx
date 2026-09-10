@@ -4,15 +4,14 @@ import colors from "@/constants/colors";
 import { findUserQuery } from "@/db/queries/users";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
-import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ProgressBar, Text } from "react-native-paper";
+import { ProfileImage } from "./components/ProfileImage";
 
 export default function Profile() {
   const { t } = useTranslation("profile");
   const { data: user } = useLiveQuery(findUserQuery());
-  console.log("🚀 ~ Profile ~ user:", user)
 
   return (
     <View style={{ padding: spacing.lg, paddingTop: spacing.huge }}>
@@ -23,32 +22,7 @@ export default function Profile() {
             justifyContent: "center",
           }}
         >
-          <View
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: spacing.huge,
-              overflow: "hidden",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: colors.inversePrimary,
-            }}
-          >
-            {user?.profileImageUri ? (
-              <Image
-                source={{ uri: user.profileImageUri }}
-                accessibilityLabel={t("overview.profileImage.accessibilityLabel")}
-                style={{ width: 100, height: 100, borderRadius: spacing.huge }}
-              />
-            ) : (
-              <MaterialDesignIcons
-                name="account"
-                size={40}
-                color={colors.primary}
-                accessibilityLabel={t("overview.profileImage.accessibilityLabel")}
-              />
-            )}
-          </View>
+          <ProfileImage uri={user?.profileImageUri} />
         </View>
         {user && (
           <Text
