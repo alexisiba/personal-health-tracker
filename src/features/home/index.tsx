@@ -1,4 +1,5 @@
-import { colors, spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
+import colors from "@/constants/colors";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import CompleteHealthProfile from "./components/CompleteHealthProfile";

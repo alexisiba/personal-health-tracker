@@ -6,8 +6,9 @@ import { ScheduledFormData } from "./Forms.types";
 import AppButton from "@/components/ui/AppButton";
 import AppTextInput from "@/components/ui/AppTextInput";
 import { Text, TextInput } from "react-native-paper";
-import { colors, spacing } from "@/constants/theme";
 import { Dropdown } from "react-native-paper-dropdown";
+import spacing from "@/constants/spacing";
+import colors from "@/constants/colors";
 
 export default function ScheduledMedicationForm() {
   const { control, handleSubmit } = useForm<ScheduledFormData>({

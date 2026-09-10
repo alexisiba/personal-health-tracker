@@ -1,5 +1,6 @@
 import AppButton from "@/components/ui/AppButton";
-import { colors, spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
+import colors from "@/constants/colors";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";

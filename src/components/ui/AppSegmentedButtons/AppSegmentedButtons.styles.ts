@@ -1,4 +1,5 @@
-import { colors, spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
+import colors from "@/constants/colors";
 import { StyleSheet } from "react-native";
 
 export const appSegmentedButtonsStyles = StyleSheet.create({
