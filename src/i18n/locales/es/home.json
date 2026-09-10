@@ -1,0 +1,12 @@
+{
+  "greeting": {
+    "withName": "Buenos días, {{name}}",
+    "default": "Buenos días"
+  },
+  "subtitle": "Aquí tienes un resumen de tu salud",
+  "completeHealthProfile": {
+    "title": "Tu perfil de salud está incompleto",
+    "description": "Ayúdanos a personalizar tu experiencia médica completando tus datos básicos.",
+    "cta": "Ir al perfil"
+  }
+}

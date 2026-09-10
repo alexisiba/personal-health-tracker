@@ -2,11 +2,13 @@ import { AppButton } from "@/components/ui/AppButton";
 import spacing from "@/constants/spacing";
 import colors from "@/constants/colors";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function CompleteHealthProfile() {
   const router = useRouter();
+  const { t } = useTranslation("home");
   return (
     <View
       style={{
@@ -21,14 +23,13 @@ export default function CompleteHealthProfile() {
         variant="headlineSmall"
         style={{ fontWeight: "bold", marginBottom: spacing.md }}
       >
-        Tu perfil de salud está incompleto
+        {t("completeHealthProfile.title")}
       </Text>
       <Text
         variant="bodyLarge"
         style={{ color: colors.gray700, marginBottom: spacing.xxl }}
       >
-        Ayúdanos a personalizar tu experiencia médica completando tus datos
-        básicos.
+        {t("completeHealthProfile.description")}
       </Text>
       <AppButton
         mode="contained"
@@ -36,7 +37,7 @@ export default function CompleteHealthProfile() {
           router.navigate("/profile");
         }}
       >
-        Ir al perfil
+        {t("completeHealthProfile.cta")}
       </AppButton>
     </View>
   );

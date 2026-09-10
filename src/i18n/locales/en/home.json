@@ -1,0 +1,12 @@
+{
+  "greeting": {
+    "withName": "Good morning, {{name}}",
+    "default": "Good morning"
+  },
+  "subtitle": "Here's a summary of your health",
+  "completeHealthProfile": {
+    "title": "Your health profile is incomplete",
+    "description": "Help us personalize your medical experience by completing your basic information.",
+    "cta": "Go to profile"
+  }
+}
