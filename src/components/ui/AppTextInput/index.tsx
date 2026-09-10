@@ -1,17 +1,40 @@
+import { Controller, FieldValues } from "react-hook-form";
 import { Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 import { appTextInputStyles } from "./AppTextInput.styles";
 import { AppTextInputProps } from "./AppTextInput.types";
 
-export default function AppTextInput({ label, ...props }: AppTextInputProps) {
+export default function AppTextInput<TFieldValues extends FieldValues>({
+  label,
+  control,
+  name,
+  ...props
+}: AppTextInputProps<TFieldValues>) {
   return (
-    <View>
-      <Text style={appTextInputStyles.label}>{label}</Text>
-      <TextInput
-        mode="outlined"
-        outlineStyle={appTextInputStyles.outline}
-        {...props}
-      />
-    </View>
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, onBlur, value }, fieldState }) => (
+        <View>
+          <Text style={appTextInputStyles.label}>{label}</Text>
+          <TextInput
+            {...props}
+            mode="outlined"
+            outlineStyle={
+              !!fieldState.error
+                ? appTextInputStyles.outlineError
+                : appTextInputStyles.outline
+            }
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            error={!!fieldState.error}
+          />
+          <HelperText type="error" visible={!!fieldState.error}>
+            {fieldState.error?.message}
+          </HelperText>
+        </View>
+      )}
+    />
   );
 }

@@ -1,34 +1,52 @@
-import { useState } from "react";
+import { Controller, FieldValues } from "react-hook-form";
 import { Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
 import { appDropdownStyles } from "./AppDropdown.styles";
 import { AppDropdownProps } from "./AppDropdown.types";
 
-export default function AppDropdown({ label, ...props }: AppDropdownProps) {
-  const [isFocused, setIsFocused] = useState(false);
+export default function AppDropdown<TFieldValues extends FieldValues>({
+  label,
+  control,
+  name,
+  ...props
+}: AppDropdownProps<TFieldValues>) {
   return (
-    <View>
-      <Text style={appDropdownStyles.label}>{label}</Text>
-      <Dropdown
-        mode="outlined"
-        CustomDropdownInput={(props) => (
-          <TextInput
-            {...props}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            outlineStyle={appDropdownStyles.outline}
-            right={
-              isFocused ? (
-                <TextInput.Icon icon="menu-up" />
-              ) : (
-                <TextInput.Icon icon="menu-down" />
-              )
-            }
-          />
-        )}
-        {...props}
-      />
-    </View>
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, value }, fieldState }) => {
+        const selectedValueLabel =
+          props.options.find((option) => option.value === value)?.label ?? "";
+
+        return (
+          <View>
+            <Text style={appDropdownStyles.label}>{label}</Text>
+            <Dropdown
+              {...props}
+              mode="outlined"
+              onSelect={onChange}
+              value={value}
+              CustomDropdownInput={(innerProps) => (
+                <TextInput
+                  {...innerProps}
+                  outlineStyle={
+                    !!fieldState.error
+                      ? appDropdownStyles.outlineError
+                      : appDropdownStyles.outline
+                  }
+                  right={<TextInput.Icon icon="menu-down" />}
+                  error={!!fieldState.error}
+                  value={selectedValueLabel}
+                />
+              )}
+            />
+            <HelperText type="error" visible={!!fieldState.error}>
+              {fieldState.error?.message}
+            </HelperText>
+          </View>
+        );
+      }}
+    />
   );
 }

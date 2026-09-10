@@ -1,56 +1,78 @@
-# Welcome to your Expo app 👋
+# Personal Health Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Personal Health Tracker is a mobile app designed to help you keep track of your health in a simple way. It lets you manage the medications you're taking, your medical appointments, and a directory of doctors and medical institutions, all in one place.
 
-## Get started
+The app works as a personal organizer: it's designed both for people who take medications regularly and visit the doctor frequently, and for any user who simply wants better control and tracking of their health.
 
-1. Install dependencies
+## Project architecture
+
+The project is built with [Expo](https://docs.expo.dev/versions/v57.0.0/) (v57), using [Expo Router](https://docs.expo.dev/router/introduction/) for file-based routing.
+
+- **UI**: [React Native Paper](https://reactnativepaper.com/) is used as the component library, aiming to speed up UI development by following Material Design.
+- **Forms**: forms are handled with [React Hook Form](https://react-hook-form.com/), chosen over Formik for its better performance (fewer re-renders), which matters for an app with multiple forms (medications, appointments, directory, registration, etc.).
+- **Validation**: form validation is done with [Zod](https://zod.dev/), integrated with React Hook Form through `@hookform/resolvers`.
+- **Internationalization (i18n)**: the app supports multiple languages via `i18next` and `react-i18next`. Currently supported languages are **English** and **Spanish**.
+
+## Installation
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- npm
+- The [Expo Go](https://expo.dev/go) app on your mobile device, or a configured Android/iOS emulator/simulator
+
+### Steps
+
+1. Clone the repository and enter the project folder
+
+   ```bash
+   git clone <repository-url>
+   cd personal-health-care
+   ```
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the project
 
    ```bash
-   npx expo start
+   npm run start
    ```
 
-In the output, you'll find options to open the app in a
+   In the command output you'll find options to open the app in:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   - A [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+   - An [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+   - An [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+   - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+You can also start the app directly on a specific platform:
 
 ```bash
-npm run reset-project
+npm run android
+npm run ios
+npm run web
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Lint
 
-### Other setup steps
+To lint the code with ESLint:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+npm run lint
+```
+
+## Project structure
+
+This project uses Expo Router's file-based routing. You can start developing by editing the files inside the `src/app` directory.
 
 ## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Expo v57 documentation](https://docs.expo.dev/versions/v57.0.0/)
+- [React Native Paper documentation](https://reactnativepaper.com/)
+- [React Hook Form documentation](https://react-hook-form.com/)
+- [Zod documentation](https://zod.dev/)
+- [i18next documentation](https://www.i18next.com/)

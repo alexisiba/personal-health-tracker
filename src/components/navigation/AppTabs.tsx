@@ -42,6 +42,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="medications"
         options={{
+          headerShown: false,
           title: "Medications",
           tabBarIcon: ({ color, focused }) => (
             <MaterialDesignIcons

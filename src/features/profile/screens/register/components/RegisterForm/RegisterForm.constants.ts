@@ -15,6 +15,6 @@ export const SEX_OPTIONS = [
   },
   {
     label: t("profile:onboardingRegister.form.sexOptions.preferNotSay"),
-    value: "-",
+    value: "prefere-not-say",
   },
 ];
