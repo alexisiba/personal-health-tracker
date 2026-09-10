@@ -1,10 +1,34 @@
 {
   "addMedicationForm": {
+    "title": "Add medication",
     "question": "How should this medication be taken?",
     "options": {
       "scheduled": "Scheduled",
       "nonScheduled": "As needed"
     }
+  },
+  "list": {
+    "header": {
+      "title": "Medications",
+      "addButtonLabel": "Add medication"
+    },
+    "empty": {
+      "title": "Your medicine cabinet is empty",
+      "description": "Register your medications to get timely reminders, track your doses, and keep your health under control effortlessly.",
+      "actionLabel": "Add medication"
+    },
+    "nextMedication": {
+      "heading": "Next medication",
+      "nextDoseLabel": "Next dose",
+      "markAsTakenLabel": "Mark as taken"
+    },
+    "nonScheduledPlaceholder": "This view is coming soon",
+    "doseLabel": "Dose",
+    "frequencyLabel": "Frequency",
+    "firstDoseLabel": "First dose",
+    "endDateLabel": "End date",
+    "prescribingDoctorLabel": "Prescribing doctor",
+    "notesLabel": "Notes"
   },
   "doseUnits": {
     "tablet_one": "Tablet",

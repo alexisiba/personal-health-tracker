@@ -1,7 +1,12 @@
+import { AppButton } from "@/components/ui/AppButton";
 import colors from "@/constants/colors";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function MedicationsLayout() {
+  const router = useRouter();
+  const { t } = useTranslation("medications");
+
   return (
     <Stack
       screenOptions={{
@@ -20,14 +25,25 @@ export default function MedicationsLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: "Medicamentos",
+          title: t("list.header.title"),
+          headerRight: () => (
+            <AppButton
+              mode="text"
+              icon="plus"
+              compact
+              textColor={colors.white}
+              onPress={() => router.navigate("/(tabs)/medications/add-medication-form")}
+            >
+              {t("list.header.addButtonLabel")}
+            </AppButton>
+          ),
         }}
       />
 
       <Stack.Screen
         name="add-medication-form"
         options={{
-          title: "Agregar medicamento",
+          title: t("addMedicationForm.title"),
         }}
       />
     </Stack>
