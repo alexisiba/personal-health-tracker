@@ -15,6 +15,13 @@
       "when": 1789041043260,
       "tag": "0001_premium_grandmaster",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789058845843,
+      "tag": "0002_thin_goliath",
+      "breakpoints": true
     }
   ]
 }

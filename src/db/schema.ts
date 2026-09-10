@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // RegisterForm.schemas.ts's zod schema validates against this same array, and
 // RegisterForm.constants.ts's SEX_OPTIONS values are kept in sync with it by hand.
@@ -19,4 +19,44 @@ export const users = sqliteTable("users", {
   // picking), not the image's raw bytes — optional, since a profile photo
   // isn't required to finish registration.
   profileImageUri: text("profile_image_uri"),
+});
+
+// Forms.constants.ts's FORM_OPTIONS values are kept in sync with this by hand.
+export const MEDICATION_TYPE_VALUES = ["scheduled", "non-scheduled"] as const;
+
+// Forms.constants.ts's DOSE_UNIT_KEYS values are kept in sync with this by hand.
+export const DOSE_UNIT_VALUES = [
+  "tablet",
+  "capsule",
+  "coatedTablet",
+  "ml",
+  "drop",
+  "teaspoon",
+  "tablespoon",
+  "application",
+  "inhalation",
+  "patch",
+  "suppository",
+  "ovule",
+  "unit",
+] as const;
+
+// Forms.constants.ts's FREQUENCY_UNIT_KEYS values are kept in sync with this by hand.
+export const FREQUENCY_UNIT_VALUES = ["hour", "day", "week", "month"] as const;
+
+// Scheduled and non-scheduled medications share this table: a non-scheduled
+// medication (taken as needed) omits frequencyValue/frequencyUnit/firstDoseDate,
+// so those columns are nullable even though ScheduledMedicationForm requires them.
+export const medications = sqliteTable("medications", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  type: text("type", { enum: MEDICATION_TYPE_VALUES }).notNull(),
+  name: text("name").notNull(),
+  doseQuantity: real("dose_quantity").notNull(),
+  doseUnit: text("dose_unit", { enum: DOSE_UNIT_VALUES }).notNull(),
+  frequencyValue: integer("frequency_value"),
+  frequencyUnit: text("frequency_unit", { enum: FREQUENCY_UNIT_VALUES }),
+  firstDoseDate: integer("first_dose_date", { mode: "timestamp" }),
+  endDate: integer("end_date", { mode: "timestamp" }),
+  prescribingDoctor: text("prescribing_doctor"),
+  notes: text("notes"),
 });
