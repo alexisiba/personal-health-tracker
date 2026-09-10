@@ -1,12 +1,19 @@
 import { AppButton } from "@/components/ui/AppButton";
 import spacing from "@/constants/spacing";
 import colors from "@/constants/colors";
+import { findUserQuery } from "@/db/queries/users";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { Image } from "expo-image";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { ProgressBar, Text } from "react-native-paper";
 
 export default function Profile() {
+  const { t } = useTranslation("profile");
+  const { data: user } = useLiveQuery(findUserQuery());
+  console.log("🚀 ~ Profile ~ user:", user)
+
   return (
     <View style={{ padding: spacing.lg, paddingTop: spacing.huge }}>
       <View style={{ gap: spacing.xxl, marginBottom: spacing.xxxl }}>
@@ -16,23 +23,47 @@ export default function Profile() {
             justifyContent: "center",
           }}
         >
-          <Image
-            source={require("../../../assets/images/profile.jpeg")}
-            style={{ width: 100, height: 100, borderRadius: spacing.huge }}
-          />
+          <View
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: spacing.huge,
+              overflow: "hidden",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: colors.inversePrimary,
+            }}
+          >
+            {user?.profileImageUri ? (
+              <Image
+                source={{ uri: user.profileImageUri }}
+                accessibilityLabel={t("overview.profileImage.accessibilityLabel")}
+                style={{ width: 100, height: 100, borderRadius: spacing.huge }}
+              />
+            ) : (
+              <MaterialDesignIcons
+                name="account"
+                size={40}
+                color={colors.primary}
+                accessibilityLabel={t("overview.profileImage.accessibilityLabel")}
+              />
+            )}
+          </View>
         </View>
-        <Text
-          variant="headlineMedium"
-          style={{ fontWeight: "bold", textAlign: "center" }}
-        >
-          Alexis Isidoro Bolaños Avalos
-        </Text>
+        {user && (
+          <Text
+            variant="headlineMedium"
+            style={{ fontWeight: "bold", textAlign: "center" }}
+          >
+            {`${user.name} ${user.lastName}`}
+          </Text>
+        )}
         <AppButton
           mode="contained"
           style={{ marginHorizontal: "auto" }}
           icon="pencil"
         >
-          Editar Perfil
+          {t("overview.editProfile")}
         </AppButton>
       </View>
       <View
@@ -60,15 +91,14 @@ export default function Profile() {
             variant="titleLarge"
             style={{ fontWeight: "bold", marginBottom: spacing.sm }}
           >
-            Tu perfil de salud está incompleto
+            {t("overview.incompleteHealthProfile.title")}
           </Text>
         </View>
         <Text
           variant="bodyMedium"
           style={{ marginBottom: spacing.md, color: colors.gray700 }}
         >
-          Ayúdanos a personalizar la información de salud que te mostramos
-          completando tus datos básicos.
+          {t("overview.incompleteHealthProfile.description")}
         </Text>
         <View style={{ marginBottom: spacing.lg }}>
           <View
@@ -80,7 +110,7 @@ export default function Profile() {
             }}
           >
             <Text style={{ fontWeight: "bold", color: colors.primary }}>
-              Progreso
+              {t("overview.incompleteHealthProfile.progressLabel")}
             </Text>
             <Text style={{ fontWeight: "bold", color: colors.primary }}>
               30%
@@ -92,7 +122,7 @@ export default function Profile() {
             fillStyle={{ backgroundColor: colors.secondaryContainer }}
           />
         </View>
-        <AppButton mode="contained">Completar perfil de salud</AppButton>
+        <AppButton mode="contained">{t("overview.incompleteHealthProfile.cta")}</AppButton>
       </View>
     </View>
   );

@@ -31,5 +31,17 @@
       }
     },
     "title": "Create your profile"
+  },
+  "overview": {
+    "profileImage": {
+      "accessibilityLabel": "Profile photo"
+    },
+    "editProfile": "Edit profile",
+    "incompleteHealthProfile": {
+      "title": "Your health profile is incomplete",
+      "description": "Help us personalize the health information we show you by completing your basic information.",
+      "progressLabel": "Progress",
+      "cta": "Complete health profile"
+    }
   }
 }
