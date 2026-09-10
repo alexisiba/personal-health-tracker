@@ -1,16 +1,17 @@
 import { AppButton } from "@/components/ui/AppButton";
+import { AppQuantityUnitInput } from "@/components/ui/AppQuantityUnitInput";
 import { AppTextInput } from "@/components/ui/AppTextInput";
-import colors from "@/constants/colors";
-import spacing from "@/constants/spacing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
-import { Dropdown } from "react-native-paper-dropdown";
+import { DOSE_UNIT_KEYS } from "./Forms.constants";
 import { scheduledFormSchema } from "./Forms.schema";
 import { ScheduledFormData } from "./Forms.types";
 
 export default function ScheduledMedicationForm() {
+  const { t } = useTranslation("medications");
+
   const { control, handleSubmit } = useForm<ScheduledFormData>({
     resolver: zodResolver(scheduledFormSchema),
     defaultValues: {
@@ -27,6 +28,12 @@ export default function ScheduledMedicationForm() {
     },
   });
 
+  const doseQuantity = useWatch({ control, name: "doseQuantity" });
+  const doseUnitOptions = DOSE_UNIT_KEYS.map((key) => ({
+    label: t(`doseUnits.${key}`, { count: doseQuantity ?? 1 }),
+    value: key,
+  }));
+
   const onSubmit = (data: ScheduledFormData) => {
     console.log("Datos validados y listos:", data);
   };
@@ -39,55 +46,14 @@ export default function ScheduledMedicationForm() {
         placeholder="Eg: Paracetamol"
         outlineStyle={{ borderColor: "lightgray" }}
       />
-      <View style={{ gap: spacing.sm, marginBottom: spacing.lg }}>
-        <Text>Dosis indicada por el medico:</Text>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TextInput
-            placeholder="Eg: 1"
-            mode="outlined"
-            outlineStyle={{
-              borderRadius: 0,
-              borderTopLeftRadius: spacing.xs,
-              borderBottomLeftRadius: spacing.xs,
-              borderColor: colors.gray400,
-              borderRightWidth: 0,
-            }}
-          />
-          <Dropdown
-            value="hours"
-            options={[
-              {
-                label: "Horas",
-                value: "hours",
-              },
-              {
-                label: "Días",
-                value: "days",
-              },
-            ]}
-            CustomDropdownInput={(innerProps) => (
-              <TextInput
-                {...innerProps}
-                mode="outlined"
-                outlineStyle={{
-                  borderColor: colors.gray400,
-                  borderRadius: 0,
-                  borderTopRightRadius: spacing.xs,
-                  borderBottomRightRadius: spacing.xs,
-                  borderLeftWidth: 0,
-                  paddingVertical: spacing.xs,
-                }}
-                contentStyle={{
-                  borderLeftWidth: 1,
-                  borderLeftColor: colors.gray200,
-                  paddingVertical: spacing.xs,
-                }}
-                right={<TextInput.Icon icon="menu-down" />}
-              />
-            )}
-          />
-        </View>
-      </View>
+      <AppQuantityUnitInput
+        control={control}
+        quantityName="doseQuantity"
+        unitName="doseUnit"
+        label="Dosis indicada por el medico:"
+        quantityPlaceholder="Eg: 1"
+        options={doseUnitOptions}
+      />
       <AppButton mode="contained" onPress={handleSubmit(onSubmit)}>
         Registrar medicamento
       </AppButton>

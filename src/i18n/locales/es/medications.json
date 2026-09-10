@@ -1,0 +1,29 @@
+{
+  "doseUnits": {
+    "tablet_one": "Tableta",
+    "tablet_other": "Tabletas",
+    "capsule_one": "Cápsula",
+    "capsule_other": "Cápsulas",
+    "coatedTablet_one": "Comprimido",
+    "coatedTablet_other": "Comprimidos",
+    "ml": "mL",
+    "drop_one": "Gota",
+    "drop_other": "Gotas",
+    "teaspoon_one": "Cucharadita",
+    "teaspoon_other": "Cucharaditas",
+    "tablespoon_one": "Cucharada",
+    "tablespoon_other": "Cucharadas",
+    "application_one": "Aplicación",
+    "application_other": "Aplicaciones",
+    "inhalation_one": "Inhalación",
+    "inhalation_other": "Inhalaciones",
+    "patch_one": "Parche",
+    "patch_other": "Parches",
+    "suppository_one": "Supositorio",
+    "suppository_other": "Supositorios",
+    "ovule_one": "Óvulo",
+    "ovule_other": "Óvulos",
+    "unit_one": "Unidad",
+    "unit_other": "Unidades"
+  }
+}

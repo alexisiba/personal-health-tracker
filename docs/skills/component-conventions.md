@@ -124,6 +124,12 @@ Child components import from these root-level files instead of creating their ow
 
 ---
 
+# Text Content
+
+Every piece of user-facing text a component renders — labels, button text, placeholders, error messages, option lists, accessibility strings — must come from an i18n translation key, never a literal string in the code. See [`i18n.md`](i18n.md) for the required structure and patterns; this applies without exception, regardless of how small or "temporary" the string feels.
+
+---
+
 # Testing
 
 Every component must include its own test file, covering its correct behavior.
@@ -170,6 +176,7 @@ Avoid:
 - Complementary files (`.styles.ts`, `.types.ts`, ...) placed inside the internal `components/` folder instead of at the parent component's root.
 - A genuinely reusable component left hidden inside another component's internal `components/` folder instead of being promoted to a top-level component.
 - A component shipped with no `ComponentName.test.tsx`.
+- A literal, hardcoded user-facing string anywhere in a component instead of an i18n translation key (see [`i18n.md`](i18n.md)).
 - Testing a component in a way it isn't actually used (e.g. rendering a component that requires a React Hook Form `control` prop on its own, instead of inside a `useForm()` test wrapper).
 
 ---
@@ -188,4 +195,5 @@ Before considering a component complete, verify that:
 - Child components reuse the parent's complementary files instead of duplicating them.
 - Any component that is or becomes reusable elsewhere lives at the appropriate top level (global or feature), not nested inside another component's internal `components/` folder.
 - `ComponentName.test.tsx` exists at the component's root and covers rendering, user-facing behavior, and any error/validation states.
+- Every piece of user-facing text comes from an i18n translation key (`t()`), with no literal strings in the code (see [`i18n.md`](i18n.md)).
 - The component is tested the way it is actually consumed (e.g. through a `useForm()` wrapper when it needs a React Hook Form `control`), not rendered in isolation from requirements it depends on.

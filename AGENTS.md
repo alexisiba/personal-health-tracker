@@ -17,3 +17,4 @@ Project-specific skills live under `docs/skills/`, so that any AI model can disc
 - [`docs/skills/a11y.md`](docs/skills/a11y.md) — accessibility standards to follow when implementing UI components.
 - [`docs/skills/component-conventions.md`](docs/skills/component-conventions.md) — folder/file structure and naming conventions to follow when creating any component (global or feature-scoped).
 - [`docs/skills/testing.md`](docs/skills/testing.md) — tooling and library-specific behavior to follow when writing a component's tests.
+- [`docs/skills/i18n.md`](docs/skills/i18n.md) — namespace structure and conventions to follow when adding or consuming translated strings. **All user-facing text must go through i18n — literal strings in the app are not allowed.**
