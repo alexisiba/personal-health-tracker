@@ -1,4 +1,4 @@
-import { spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
 import { StyleSheet } from "react-native";
 
 export const appButtonStyles = StyleSheet.create({

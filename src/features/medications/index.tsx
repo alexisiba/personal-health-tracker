@@ -1,5 +1,5 @@
 import EmptyState from "@/components/shared/EmptyState";
-import { spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 

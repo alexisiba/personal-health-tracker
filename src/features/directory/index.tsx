@@ -1,5 +1,5 @@
 import EmptyState from "@/components/shared/EmptyState";
-import { spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
 import { StyleSheet, View } from "react-native";
 
 export default function Directory() {

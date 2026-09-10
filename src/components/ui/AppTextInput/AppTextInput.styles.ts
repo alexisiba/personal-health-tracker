@@ -1,4 +1,4 @@
-import { colors } from "@/constants/theme";
+import colors from "@/constants/colors";
 import { StyleSheet } from "react-native";
 
 export const appTextInputStyles = StyleSheet.create({

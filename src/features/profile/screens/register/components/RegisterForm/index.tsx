@@ -2,7 +2,7 @@ import AppButton from "@/components/ui/AppButton";
 import AppDateInput from "@/components/ui/AppDateInput";
 import AppDropdown from "@/components/ui/AppDropdown";
 import AppTextInput from "@/components/ui/AppTextInput";
-import { colors } from "@/constants/theme";
+import colors from "@/constants/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { useRouter } from "expo-router";

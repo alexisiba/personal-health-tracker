@@ -1,4 +1,4 @@
-import { colors } from "@/constants/theme";
+import colors from "@/constants/colors";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { Tabs } from "expo-router";
 

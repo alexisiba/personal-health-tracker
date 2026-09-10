@@ -1,4 +1,4 @@
-import { spacing } from "@/constants/theme";
+import spacing from "@/constants/spacing";
 import { View } from "react-native";
 import AppButton from "../AppButton";
 import { appSegmentedButtonsStyles } from "./AppSegmentedButtons.styles";

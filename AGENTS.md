@@ -12,4 +12,7 @@ Do not rely on prior knowledge of Expo — verify against these versioned docs f
 
 ## Skills
 
-Project-specific skills live under `docs/`, so that any AI model can discover and use them. Skills will be referenced here individually as they are added.
+Project-specific skills live under `docs/skills/`, so that any AI model can discover and use them. Skills will be referenced here individually as they are added.
+
+- [`docs/skills/a11y.md`](docs/skills/a11y.md) — accessibility standards to follow when implementing UI components.
+- [`docs/skills/component-conventions.md`](docs/skills/component-conventions.md) — folder/file structure and naming conventions to follow when creating any component (global or feature-scoped).

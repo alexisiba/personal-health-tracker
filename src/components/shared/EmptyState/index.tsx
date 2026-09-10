@@ -1,5 +1,5 @@
 import AppButton from "@/components/ui/AppButton";
-import { colors } from "@/constants/theme";
+import colors from "@/constants/colors";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
