@@ -5,10 +5,12 @@ import { AppTextInput } from "@/components/ui/AppTextInput";
 import colors from "@/constants/colors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
+import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
-import { useForm } from "react-hook-form";
+import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 import { SEX_OPTIONS } from "./RegisterForm.constants";
 import { registerFormSchema } from "./RegisterForm.schemas";
@@ -21,7 +23,18 @@ export default function RegisterForm() {
 
   const { control, handleSubmit } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
-    defaultValues: { name: "", dob: undefined, sexAtBirth: undefined },
+    defaultValues: {
+      name: "",
+      lastName: "",
+      dob: undefined,
+      sexAtBirth: undefined,
+      profileImageUri: undefined,
+    },
+  });
+
+  const { field: profileImageField } = useController({
+    control,
+    name: "profileImageUri",
   });
 
   const onSubmit = (data: RegisterFormData) => {
@@ -29,18 +42,97 @@ export default function RegisterForm() {
     router.navigate("/(tabs)");
   };
 
+  const applyPickedImage = (result: ImagePicker.ImagePickerResult) => {
+    if (!result.canceled) {
+      profileImageField.onChange(result.assets[0].uri);
+    }
+  };
+
+  const pickFromCamera = async () => {
+    const { granted } = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (!granted) {
+      Alert.alert(
+        t("onboardingRegister.form.profileImage.permissionDeniedTitle"),
+        t("onboardingRegister.form.profileImage.cameraPermissionDeniedMessage"),
+      );
+      return;
+    }
+
+    applyPickedImage(
+      await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+      }),
+    );
+  };
+
+  const pickFromGallery = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!granted) {
+      Alert.alert(
+        t("onboardingRegister.form.profileImage.permissionDeniedTitle"),
+        t("onboardingRegister.form.profileImage.photosPermissionDeniedMessage"),
+      );
+      return;
+    }
+
+    applyPickedImage(
+      await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.7,
+      }),
+    );
+  };
+
+  const pickProfileImage = () => {
+    Alert.alert(
+      t("onboardingRegister.form.profileImage.sourceActionSheet.title"),
+      undefined,
+      [
+        {
+          text: t("onboardingRegister.form.profileImage.sourceActionSheet.camera"),
+          onPress: pickFromCamera,
+        },
+        {
+          text: t("onboardingRegister.form.profileImage.sourceActionSheet.gallery"),
+          onPress: pickFromGallery,
+        },
+        {
+          text: t("onboardingRegister.form.profileImage.sourceActionSheet.cancel"),
+          style: "cancel",
+        },
+      ],
+    );
+  };
+
   return (
     <View style={registerFormStyles.formContainer}>
       <View style={registerFormStyles.profileImageButtonContainer}>
         <TouchableRipple
-          onPress={() => console.log("Pressed")}
+          onPress={pickProfileImage}
           style={registerFormStyles.profileImageButton}
+          accessibilityLabel={t(
+            "onboardingRegister.form.profileImage.accessibilityLabel",
+          )}
         >
-          <MaterialDesignIcons
-            name="account-plus"
-            size={40}
-            color={colors.primary}
-          />
+          {profileImageField.value ? (
+            <Image
+              testID="profile-image"
+              source={{ uri: profileImageField.value }}
+              style={registerFormStyles.profileImage}
+            />
+          ) : (
+            <MaterialDesignIcons
+              name="account-plus"
+              size={40}
+              color={colors.primary}
+            />
+          )}
         </TouchableRipple>
       </View>
       <View style={registerFormStyles.headContainer}>
@@ -55,7 +147,13 @@ export default function RegisterForm() {
         <AppTextInput
           control={control}
           name="name"
-          label={`${t("onboardingRegister.form.fullName")} *`}
+          label={`${t("onboardingRegister.form.name")} *`}
+          outlineStyle={{ borderColor: "lightgray" }}
+        />
+        <AppTextInput
+          control={control}
+          name="lastName"
+          label={`${t("onboardingRegister.form.lastName")} *`}
           outlineStyle={{ borderColor: "lightgray" }}
         />
         <AppDateInput

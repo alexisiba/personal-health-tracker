@@ -35,7 +35,14 @@
       ],
       "expo-localization",
       "expo-image",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "La app necesita acceso a tus fotos para elegir una imagen de perfil.",
+          "cameraPermission": "La app necesita acceso a tu cámara para tomar una foto de perfil."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

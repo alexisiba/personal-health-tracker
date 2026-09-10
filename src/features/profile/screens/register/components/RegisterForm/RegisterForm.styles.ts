@@ -19,6 +19,11 @@ export const registerFormStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
   headContainer: { paddingVertical: 20 },
   headTitle: { marginBottom: 10, textAlign: "center" },
   headDescription: { textAlign: "center" },

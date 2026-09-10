@@ -70,6 +70,7 @@ export const users = sqliteTable("users", {
 - **Dates**: `integer("column_name", { mode: "timestamp" })` stores the value as Unix seconds and Drizzle maps it to/from a JS `Date` automatically. Don't store dates as `text` ISO strings.
 - **Fixed value sets**: `text("column_name", { enum: [...] as const })` gives the column a TypeScript union type. This is a **compile-time-only** constraint — it does not add a SQL `CHECK`, so a raw/manual insert can still write an out-of-set value. Add a real `CHECK` constraint separately if runtime enforcement matters for that column.
 - Keep the values behind an `enum` column in a named `const ... as const` array (see `SEX_AT_BIRTH_VALUES`) instead of inlining the array literal, so the same value set can be imported and reused (e.g. by a form's options list) instead of retyped.
+- **Images/files**: store a local file URI as `text` (e.g. `profileImageUri: text("profile_image_uri")`, copied into a persistent app directory via `expo-file-system` after picking), never the raw bytes as a `blob`. SQLite isn't the place for file content — a blob column bloats the database file and is slower to read than just handing the UI a URI to render directly. Leave the column nullable unless the field is genuinely required to finish that flow.
 
 ---
 

@@ -8,6 +8,13 @@
       "when": 1789040518160,
       "tag": "0000_lush_spiral",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789041043260,
+      "tag": "0001_premium_grandmaster",
+      "breakpoints": true
     }
   ]
 }

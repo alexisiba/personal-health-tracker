@@ -4,13 +4,26 @@
     "form": {
       "createAccount": "Crear cuenta",
       "dob": "Fecha de nacimiento",
-      "fullName": "Nombre completo",
+      "name": "Nombre",
+      "lastName": "Apellidos",
       "sexAtBirth": "Sexo asignado al nacer",
       "sexOptions": {
         "female": "Mujer",
         "intersexual": "Intersexual",
         "male": "Hombre",
         "preferNotSay": "Prefiero no decir"
+      },
+      "profileImage": {
+        "accessibilityLabel": "Elegir foto de perfil",
+        "sourceActionSheet": {
+          "title": "Foto de perfil",
+          "camera": "Tomar foto",
+          "gallery": "Elegir de galería",
+          "cancel": "Cancelar"
+        },
+        "permissionDeniedTitle": "Permiso necesario",
+        "photosPermissionDeniedMessage": "Activa el acceso a tus fotos desde los ajustes del dispositivo para elegir una imagen de perfil.",
+        "cameraPermissionDeniedMessage": "Activa el acceso a la cámara desde los ajustes del dispositivo para tomar una foto de perfil."
       }
     },
     "title": "Crear tu perfil"

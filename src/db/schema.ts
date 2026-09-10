@@ -15,4 +15,8 @@ export const users = sqliteTable("users", {
   lastName: text("last_name").notNull(),
   dateOfBirth: integer("date_of_birth", { mode: "timestamp" }).notNull(),
   sexAtBirth: text("sex_at_birth", { enum: SEX_AT_BIRTH_VALUES }).notNull(),
+  // A local file URI (e.g. copied into place via expo-file-system after
+  // picking), not the image's raw bytes — optional, since a profile photo
+  // isn't required to finish registration.
+  profileImageUri: text("profile_image_uri"),
 });
