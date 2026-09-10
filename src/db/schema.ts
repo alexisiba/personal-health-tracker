@@ -50,12 +50,21 @@ export const FREQUENCY_UNIT_VALUES = ["hour", "day", "week", "month"] as const;
 export const medications = sqliteTable("medications", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   type: text("type", { enum: MEDICATION_TYPE_VALUES }).notNull(),
+  // Excludes a medication from the active lists/queries once the user is done
+  // with it, without deleting its history.
+  isFinished: integer("is_finished", { mode: "boolean" }).notNull().default(false),
   name: text("name").notNull(),
   doseQuantity: real("dose_quantity").notNull(),
   doseUnit: text("dose_unit", { enum: DOSE_UNIT_VALUES }).notNull(),
   frequencyValue: integer("frequency_value"),
   frequencyUnit: text("frequency_unit", { enum: FREQUENCY_UNIT_VALUES }),
   firstDoseDate: integer("first_dose_date", { mode: "timestamp" }),
+  // Scheduled only: set to firstDoseDate when the medication is created, then
+  // pushed forward by frequencyValue/frequencyUnit each time it's marked as
+  // taken — this is app-driven state, never set directly from a form.
+  nextDoseDate: integer("next_dose_date", { mode: "timestamp" }),
+  // Non-scheduled only: when the medication was last marked as taken.
+  lastTakenAt: integer("last_taken_at", { mode: "timestamp" }),
   endDate: integer("end_date", { mode: "timestamp" }),
   prescribingDoctor: text("prescribing_doctor"),
   notes: text("notes"),

@@ -20,7 +20,9 @@
     "nextMedication": {
       "heading": "Next medication",
       "nextDoseLabel": "Next dose",
-      "markAsTakenLabel": "Mark as taken"
+      "markAsTakenLabel": "Mark as taken",
+      "markAsTakenErrorTitle": "Couldn't update the dose",
+      "markAsTakenErrorMessage": "Something went wrong while updating this medication. Please try again."
     },
     "scheduledEmpty": {
       "title": "No scheduled medications",
@@ -91,6 +93,9 @@
     "firstDoseDate": {
       "label": "First dose"
     },
+    "firstDoseTime": {
+      "label": "Time"
+    },
     "endDate": {
       "label": "End date"
     },
@@ -112,6 +117,7 @@
       "frequencyValueRequired": "The frequency value is a required field",
       "frequencyUnitRequired": "The frequency unit is a required field",
       "firstDoseDateRequired": "The first dose date is required",
+      "firstDoseTimeRequired": "The first dose time is required",
       "saveFailedTitle": "Couldn't save the medication",
       "saveFailedMessage": "Something went wrong while saving your medication. Please try again."
     }

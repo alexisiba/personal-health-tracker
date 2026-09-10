@@ -4,5 +4,14 @@
   },
   "database": {
     "migrationError": "We couldn't set up the local database: {{message}}"
+  },
+  "timePicker": {
+    "label": "Select time",
+    "cancelLabel": "Cancel",
+    "confirmLabel": "Ok",
+    "hoursLabel": "Hour",
+    "minutesLabel": "Minute",
+    "am": "AM",
+    "pm": "PM"
   }
 }

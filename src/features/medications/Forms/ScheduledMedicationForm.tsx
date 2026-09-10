@@ -2,6 +2,7 @@ import { AppButton } from "@/components/ui/AppButton";
 import { AppDateInput } from "@/components/ui/AppDateInput";
 import { AppQuantityUnitInput } from "@/components/ui/AppQuantityUnitInput";
 import { AppTextInput } from "@/components/ui/AppTextInput";
+import { AppTimeInput } from "@/components/ui/AppTimeInput";
 import spacing from "@/constants/spacing";
 import { createMedication } from "@/db/queries/medications";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +14,7 @@ import { Divider, Text } from "react-native-paper";
 import { DOSE_UNIT_KEYS, FREQUENCY_UNIT_KEYS } from "./Forms.constants";
 import { scheduledFormSchema } from "./Forms.schema";
 import { ScheduledFormData } from "./Forms.types";
+import { combineDateAndTime } from "./Forms.utils";
 
 export default function ScheduledMedicationForm() {
   const router = useRouter();
@@ -34,6 +36,7 @@ export default function ScheduledMedicationForm() {
       frequencyValue: undefined,
       frequencyUnit: undefined,
       firstDoseDate: undefined,
+      firstDoseTime: undefined,
       endDate: undefined,
       prescribingDoctor: "",
       notes: "",
@@ -61,7 +64,7 @@ export default function ScheduledMedicationForm() {
         doseUnit: data.doseUnit,
         frequencyValue: data.frequencyValue,
         frequencyUnit: data.frequencyUnit,
-        firstDoseDate: data.firstDoseDate,
+        firstDoseDate: combineDateAndTime(data.firstDoseDate, data.firstDoseTime),
         endDate: data.endDate,
         prescribingDoctor: data.prescribingDoctor,
         notes: data.notes,
@@ -107,15 +110,29 @@ export default function ScheduledMedicationForm() {
         options={frequencyUnitOptions}
         testID="frequency"
       />
-      <AppDateInput
-        control={control}
-        name="firstDoseDate"
-        label={t("scheduledForm.firstDoseDate.label")}
-        inputMode="start"
-        locale={locale}
-        required
-        testID="first-dose-date-input"
-      />
+      <View style={styles.firstDoseRow}>
+        <View style={styles.firstDoseField}>
+          <AppDateInput
+            control={control}
+            name="firstDoseDate"
+            label={t("scheduledForm.firstDoseDate.label")}
+            inputMode="start"
+            locale={locale}
+            required
+            testID="first-dose-date-input"
+          />
+        </View>
+        <View style={styles.firstDoseField}>
+          <AppTimeInput
+            control={control}
+            name="firstDoseTime"
+            label={t("scheduledForm.firstDoseTime.label")}
+            locale={locale}
+            required
+            testID="first-dose-time-input"
+          />
+        </View>
+      </View>
       <AppDateInput
         control={control}
         name="endDate"
@@ -163,4 +180,6 @@ const styles = StyleSheet.create({
   container: { gap: spacing.sm },
   divider: { marginVertical: spacing.sm },
   sectionTitle: { marginBottom: spacing.xs },
+  firstDoseRow: { flexDirection: "row", gap: spacing.sm },
+  firstDoseField: { flex: 1 },
 });

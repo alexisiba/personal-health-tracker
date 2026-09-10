@@ -20,7 +20,9 @@
     "nextMedication": {
       "heading": "Próximo medicamento",
       "nextDoseLabel": "Próxima dosis",
-      "markAsTakenLabel": "Marcar como tomado"
+      "markAsTakenLabel": "Marcar como tomado",
+      "markAsTakenErrorTitle": "No se pudo actualizar la dosis",
+      "markAsTakenErrorMessage": "Algo salió mal al actualizar este medicamento. Por favor, inténtalo de nuevo."
     },
     "scheduledEmpty": {
       "title": "No tienes medicamentos programados",
@@ -91,6 +93,9 @@
     "firstDoseDate": {
       "label": "Primera dosis"
     },
+    "firstDoseTime": {
+      "label": "Hora"
+    },
     "endDate": {
       "label": "Fecha de finalización"
     },
@@ -112,6 +117,7 @@
       "frequencyValueRequired": "El valor de la frecuencia es un campo requerido",
       "frequencyUnitRequired": "La unidad de la frecuencia es un campo requerido",
       "firstDoseDateRequired": "La fecha de la primera dosis es requerida",
+      "firstDoseTimeRequired": "La hora de la primera dosis es requerida",
       "saveFailedTitle": "No se pudo guardar el medicamento",
       "saveFailedMessage": "Algo salió mal al guardar tu medicamento. Por favor, inténtalo de nuevo."
     }

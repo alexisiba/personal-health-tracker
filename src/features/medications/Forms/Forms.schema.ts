@@ -36,6 +36,9 @@ export const scheduledFormSchema = z.object({
   firstDoseDate: z.date({
     error: t("medications:scheduledForm.errors.firstDoseDateRequired"),
   }),
+  firstDoseTime: z.date({
+    error: t("medications:scheduledForm.errors.firstDoseTimeRequired"),
+  }),
   endDate: z.date().optional(),
   prescribingDoctor: z.string().optional(),
   notes: z.string().optional(),

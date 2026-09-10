@@ -76,6 +76,7 @@ describe("ScheduledMedicationForm", () => {
     expect(screen.getByText("Dose prescribed by the doctor *")).toBeOnTheScreen();
     expect(screen.getByText("Frequency *")).toBeOnTheScreen();
     expect(screen.getByText("First dose *")).toBeOnTheScreen();
+    expect(screen.getByText("Time *")).toBeOnTheScreen();
     expect(screen.getByText("End date")).toBeOnTheScreen();
     expect(screen.getByText("Additional details")).toBeOnTheScreen();
     expect(screen.getByText("Prescribing doctor")).toBeOnTheScreen();
@@ -109,6 +110,7 @@ describe("ScheduledMedicationForm", () => {
       screen.getByText("The frequency value is a required field"),
     ).toBeOnTheScreen();
     expect(screen.getByText("The first dose date is required")).toBeOnTheScreen();
+    expect(screen.getByText("The first dose time is required")).toBeOnTheScreen();
   });
 
   it("shows the dose/frequency unit error once their quantities are filled in but no unit is selected", async () => {
@@ -171,6 +173,11 @@ describe("ScheduledMedicationForm", () => {
       screen.getByTestId("first-dose-date-input"),
       "06/15/1990",
     );
+    await fireEvent.press(screen.getByTestId("first-dose-time-input"));
+    await fireEvent.changeText(screen.getByTestId("first-dose-time-input-hours"), "02");
+    await fireEvent.changeText(screen.getByTestId("first-dose-time-input-minutes"), "30");
+    await fireEvent.press(screen.getByText("PM"));
+    await fireEvent.press(screen.getByTestId("first-dose-time-input-confirm"));
 
     await fireEvent.press(screen.getByText("Register medication"));
 
@@ -182,7 +189,7 @@ describe("ScheduledMedicationForm", () => {
       doseUnit: "tablet",
       frequencyValue: 8,
       frequencyUnit: "hour",
-      firstDoseDate: new Date(1990, 5, 15),
+      firstDoseDate: new Date(1990, 5, 15, 14, 30),
       endDate: undefined,
       prescribingDoctor: "",
       notes: "",
@@ -210,6 +217,11 @@ describe("ScheduledMedicationForm", () => {
       screen.getByTestId("first-dose-date-input"),
       "06/15/1990",
     );
+    await fireEvent.press(screen.getByTestId("first-dose-time-input"));
+    await fireEvent.changeText(screen.getByTestId("first-dose-time-input-hours"), "02");
+    await fireEvent.changeText(screen.getByTestId("first-dose-time-input-minutes"), "30");
+    await fireEvent.press(screen.getByText("PM"));
+    await fireEvent.press(screen.getByTestId("first-dose-time-input-confirm"));
 
     await fireEvent.press(screen.getByText("Register medication"));
 

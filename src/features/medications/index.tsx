@@ -1,12 +1,12 @@
 import EmptyState from "@/components/shared/EmptyState";
 import { AppSegmentedButtons } from "@/components/ui/AppSegmentedButtons";
 import spacing from "@/constants/spacing";
-import { findAllMedicationsQuery } from "@/db/queries/medications";
+import { findAllMedicationsQuery, markMedicationAsTaken } from "@/db/queries/medications";
 import { useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Text } from "react-native-paper";
 import { NextMedicationCard } from "./components/NextMedicationCard";
 import { FORM_OPTIONS } from "./Forms/Forms.constants";
@@ -24,6 +24,17 @@ export default function Medications() {
 
   const goToAddMedicationForm = () =>
     router.navigate("/(tabs)/medications/add-medication-form");
+
+  const handleMarkAsTaken = async (id: number) => {
+    try {
+      await markMedicationAsTaken(id);
+    } catch {
+      Alert.alert(
+        t("list.nextMedication.markAsTakenErrorTitle"),
+        t("list.nextMedication.markAsTakenErrorMessage"),
+      );
+    }
+  };
 
   if (medications.length === 0) {
     return (
@@ -90,8 +101,8 @@ export default function Medications() {
               </Text>
               <NextMedicationCard
                 medication={nextMedication}
-                nextDoseDate={nextMedication.firstDoseDate!}
-                onMarkAsTaken={() => {}}
+                nextDoseDate={nextMedication.nextDoseDate ?? nextMedication.firstDoseDate!}
+                onMarkAsTaken={() => handleMarkAsTaken(nextMedication.id)}
               />
             </View>
           ) : null

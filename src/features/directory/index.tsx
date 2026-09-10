@@ -8,7 +8,7 @@ export default function Directory() {
     <View style={{ padding: spacing.lg }}>
       {!directory ? (
         <EmptyState
-          icon="calendar-outline"
+          icon="book-open-outline"
           title="Tu directorio está vacío"
           description="Agrega a tus médicos de cabecera, especialistas o contactos de emergencia para tener su información siempre a mano."
           actionLabel="Agregar contacto"
