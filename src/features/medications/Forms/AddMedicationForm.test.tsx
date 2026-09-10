@@ -7,6 +7,14 @@ import AddMedicationForm from "./AddMedicationForm";
 // app does this once in src/app/_layout.tsx, which tests don't render.
 registerTranslation("en", en);
 
+jest.mock("expo-router", () => ({
+  useRouter: () => ({ back: jest.fn() }),
+}));
+
+jest.mock("@/db/queries/medications", () => ({
+  createMedication: jest.fn(),
+}));
+
 // See ScheduledMedicationForm.test.tsx: react-native-paper-dropdown's real
 // Menu never finishes opening in this test renderer (its useNativeDriver
 // animation callback has no native bridge to call it back from), so we swap

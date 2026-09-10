@@ -79,7 +79,9 @@
       "doseUnitRequired": "The dose type is a required field",
       "frequencyValueRequired": "The frequency value is a required field",
       "frequencyUnitRequired": "The frequency unit is a required field",
-      "firstDoseDateRequired": "The first dose date is required"
+      "firstDoseDateRequired": "The first dose date is required",
+      "saveFailedTitle": "Couldn't save the medication",
+      "saveFailedMessage": "Something went wrong while saving your medication. Please try again."
     }
   },
   "nonScheduledForm": {
@@ -108,7 +110,9 @@
     "errors": {
       "medicationNameRequired": "The medication name is required",
       "doseQuantityRequired": "You must indicate the dose prescribed by the doctor",
-      "doseUnitRequired": "The dose type is a required field"
+      "doseUnitRequired": "The dose type is a required field",
+      "saveFailedTitle": "Couldn't save the medication",
+      "saveFailedMessage": "Something went wrong while saving your medication. Please try again."
     }
   }
 }

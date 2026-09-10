@@ -3,27 +3,34 @@ import { AppDateInput } from "@/components/ui/AppDateInput";
 import { AppQuantityUnitInput } from "@/components/ui/AppQuantityUnitInput";
 import { AppTextInput } from "@/components/ui/AppTextInput";
 import spacing from "@/constants/spacing";
+import { createMedication } from "@/db/queries/medications";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
 import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Divider, Text } from "react-native-paper";
 import { DOSE_UNIT_KEYS } from "./Forms.constants";
 import { nonScheduledFormSchema } from "./Forms.schema";
 import { NonScheduledFormData } from "./Forms.types";
 
 export default function NonScheduledMedicationForm() {
+  const router = useRouter();
   const {
     t,
     i18n: { language: locale },
   } = useTranslation("medications");
 
-  const { control, handleSubmit } = useForm<NonScheduledFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<NonScheduledFormData>({
     resolver: zodResolver(nonScheduledFormSchema),
     defaultValues: {
       medicationName: "",
       doseQuantity: undefined,
-      doseUnit: "",
+      doseUnit: undefined,
       endDate: undefined,
       prescribingDoctor: "",
       notes: "",
@@ -36,8 +43,25 @@ export default function NonScheduledMedicationForm() {
     value: key,
   }));
 
-  const onSubmit = (data: NonScheduledFormData) => {
-    console.log("Datos validados y listos:", data);
+  const onSubmit = async (data: NonScheduledFormData) => {
+    try {
+      await createMedication({
+        type: "non-scheduled",
+        name: data.medicationName,
+        doseQuantity: data.doseQuantity,
+        doseUnit: data.doseUnit,
+        endDate: data.endDate,
+        prescribingDoctor: data.prescribingDoctor,
+        notes: data.notes,
+      });
+
+      router.back();
+    } catch {
+      Alert.alert(
+        t("nonScheduledForm.errors.saveFailedTitle"),
+        t("nonScheduledForm.errors.saveFailedMessage"),
+      );
+    }
   };
 
   return (
@@ -92,7 +116,12 @@ export default function NonScheduledMedicationForm() {
         outlineStyle={{ borderColor: "lightgray" }}
         testID="notes-input"
       />
-      <AppButton mode="contained" onPress={handleSubmit(onSubmit)}>
+      <AppButton
+        mode="contained"
+        onPress={handleSubmit(onSubmit)}
+        loading={isSubmitting}
+        disabled={isSubmitting}
+      >
         {t("nonScheduledForm.submit")}
       </AppButton>
     </View>

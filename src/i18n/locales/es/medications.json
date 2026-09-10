@@ -79,7 +79,9 @@
       "doseUnitRequired": "El tipo de dosis es un campo requerido",
       "frequencyValueRequired": "El valor de la frecuencia es un campo requerido",
       "frequencyUnitRequired": "La unidad de la frecuencia es un campo requerido",
-      "firstDoseDateRequired": "La fecha de la primera dosis es requerida"
+      "firstDoseDateRequired": "La fecha de la primera dosis es requerida",
+      "saveFailedTitle": "No se pudo guardar el medicamento",
+      "saveFailedMessage": "Algo salió mal al guardar tu medicamento. Por favor, inténtalo de nuevo."
     }
   },
   "nonScheduledForm": {
@@ -108,7 +110,9 @@
     "errors": {
       "medicationNameRequired": "El nombre del medicamento es requerido",
       "doseQuantityRequired": "Debes indicar la dosis indicada por el médico",
-      "doseUnitRequired": "El tipo de dosis es un campo requerido"
+      "doseUnitRequired": "El tipo de dosis es un campo requerido",
+      "saveFailedTitle": "No se pudo guardar el medicamento",
+      "saveFailedMessage": "Algo salió mal al guardar tu medicamento. Por favor, inténtalo de nuevo."
     }
   }
 }

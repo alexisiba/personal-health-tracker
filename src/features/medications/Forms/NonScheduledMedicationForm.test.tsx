@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
+import { Alert } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { en, registerTranslation } from "react-native-paper-dates";
 import NonScheduledMedicationForm from "./NonScheduledMedicationForm";
@@ -6,6 +7,16 @@ import NonScheduledMedicationForm from "./NonScheduledMedicationForm";
 // react-native-paper-dates throws if a locale hasn't been registered; the
 // app does this once in src/app/_layout.tsx, which tests don't render.
 registerTranslation("en", en);
+
+const mockBack = jest.fn();
+jest.mock("expo-router", () => ({
+  useRouter: () => ({ back: mockBack }),
+}));
+
+const mockCreateMedication = jest.fn();
+jest.mock("@/db/queries/medications", () => ({
+  createMedication: (...args: unknown[]) => mockCreateMedication(...args),
+}));
 
 // See ScheduledMedicationForm.test.tsx: react-native-paper-dropdown's real
 // Menu never finishes opening in this test renderer (its useNativeDriver
@@ -53,6 +64,11 @@ function renderForm() {
 }
 
 describe("NonScheduledMedicationForm", () => {
+  beforeEach(() => {
+    mockBack.mockReset();
+    mockCreateMedication.mockReset();
+  });
+
   it("renders every field in order, with a red asterisk only on required ones", async () => {
     await renderForm();
 
@@ -99,7 +115,9 @@ describe("NonScheduledMedicationForm", () => {
     expect(await screen.findByText("The dose type is a required field")).toBeOnTheScreen();
   });
 
-  it("submits every field's value through react-hook-form once the required ones are filled in", async () => {
+  it("saves the medication as non-scheduled and navigates back on submit", async () => {
+    mockCreateMedication.mockResolvedValue({ id: 1 });
+
     await renderForm();
 
     await fireEvent.changeText(
@@ -123,5 +141,44 @@ describe("NonScheduledMedicationForm", () => {
     expect(
       screen.queryByText("You must indicate the dose prescribed by the doctor"),
     ).not.toBeOnTheScreen();
+
+    await waitFor(() => expect(mockCreateMedication).toHaveBeenCalledTimes(1));
+    expect(mockCreateMedication).toHaveBeenCalledWith({
+      type: "non-scheduled",
+      name: "Ibuprofeno",
+      doseQuantity: 1,
+      doseUnit: "tablet",
+      endDate: undefined,
+      prescribingDoctor: "Dr. House",
+      notes: "Con comida",
+    });
+    expect(mockBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows an error alert and does not navigate when saving fails", async () => {
+    const alertSpy = jest.spyOn(Alert, "alert").mockImplementation(() => {});
+    mockCreateMedication.mockRejectedValue(new Error("insert failed"));
+
+    await renderForm();
+
+    await fireEvent.changeText(
+      screen.getByTestId("medication-name-input"),
+      "Ibuprofeno",
+    );
+    await fireEvent.changeText(screen.getByTestId("dose-quantity"), "1");
+    await fireEvent.press(screen.getByTestId("dose-unit"));
+    await fireEvent.press(screen.getByText("Tablet"));
+
+    await fireEvent.press(screen.getByText("Register medication"));
+
+    await waitFor(() =>
+      expect(alertSpy).toHaveBeenCalledWith(
+        "Couldn't save the medication",
+        "Something went wrong while saving your medication. Please try again.",
+      ),
+    );
+    expect(mockBack).not.toHaveBeenCalled();
+
+    alertSpy.mockRestore();
   });
 });
