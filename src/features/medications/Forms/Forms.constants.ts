@@ -1,4 +1,5 @@
 import { AppSegmentedButtonsOption } from "@/components/ui/AppSegmentedButtons/AppSegmentedButtons.types";
+import { t } from "@/i18n";
 
 // Keys under the "medications" i18n namespace's `doseUnits`, each with
 // `_one`/`_other` plural forms (see src/i18n/locales/{en,es}/medications.json).
@@ -24,11 +25,11 @@ export const FREQUENCY_UNIT_KEYS = ["hour", "day", "week", "month"] as const;
 
 export const FORM_OPTIONS: AppSegmentedButtonsOption[] = [
   {
-    label: "Programado",
+    label: t("medications:addMedicationForm.options.scheduled"),
     value: "scheduled",
   },
   {
-    label: "Segun sea necesario",
+    label: t("medications:addMedicationForm.options.nonScheduled"),
     value: "non-scheduled",
   },
 ];

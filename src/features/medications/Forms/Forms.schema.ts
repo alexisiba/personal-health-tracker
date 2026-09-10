@@ -2,9 +2,18 @@ import { t } from "@/i18n";
 import * as z from "zod";
 
 export const nonScheduledFormSchema = z.object({
-  name: z.string(),
-  doseQuantity: z.string(),
-  doseUnit: z.string(),
+  medicationName: z
+    .string()
+    .min(1, t("medications:nonScheduledForm.errors.medicationNameRequired")),
+  doseQuantity: z
+    .number({ error: t("medications:nonScheduledForm.errors.doseQuantityRequired") })
+    .min(1, t("medications:nonScheduledForm.errors.doseQuantityRequired")),
+  doseUnit: z
+    .string()
+    .min(1, t("medications:nonScheduledForm.errors.doseUnitRequired")),
+  endDate: z.date().optional(),
+  prescribingDoctor: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 export const scheduledFormSchema = z.object({

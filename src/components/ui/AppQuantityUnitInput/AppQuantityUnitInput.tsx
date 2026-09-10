@@ -45,7 +45,7 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
             borderTopLeftRadius: spacing.xs,
             borderBottomLeftRadius: spacing.xs,
             borderColor: quantityFieldState.error ? colors.error : colors.gray400,
-            borderWidth: quantityFieldState.error ? 2 : undefined,
+            borderWidth: quantityFieldState.error ? 2 : 1,
             borderRightWidth: 0,
           }}
           value={quantityField.value == null ? "" : String(quantityField.value)}
@@ -66,7 +66,7 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
               mode="outlined"
               outlineStyle={{
                 borderColor: unitFieldState.error ? colors.error : colors.gray400,
-                borderWidth: unitFieldState.error ? 2 : undefined,
+                borderWidth: unitFieldState.error ? 2 : 1,
                 borderRadius: 0,
                 borderTopRightRadius: spacing.xs,
                 borderBottomRightRadius: spacing.xs,

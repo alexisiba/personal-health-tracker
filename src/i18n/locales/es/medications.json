@@ -1,4 +1,11 @@
 {
+  "addMedicationForm": {
+    "question": "¿Cómo debe tomar este medicamento?",
+    "options": {
+      "scheduled": "Programado",
+      "nonScheduled": "Según sea necesario"
+    }
+  },
   "doseUnits": {
     "tablet_one": "Tableta",
     "tablet_other": "Tabletas",
@@ -73,6 +80,35 @@
       "frequencyValueRequired": "El valor de la frecuencia es un campo requerido",
       "frequencyUnitRequired": "La unidad de la frecuencia es un campo requerido",
       "firstDoseDateRequired": "La fecha de la primera dosis es requerida"
+    }
+  },
+  "nonScheduledForm": {
+    "medicationName": {
+      "label": "Nombre del medicamento",
+      "placeholder": "Ej: Paracetamol"
+    },
+    "dose": {
+      "label": "Dosis indicada por el médico",
+      "quantityPlaceholder": "Ej: 1"
+    },
+    "endDate": {
+      "label": "Fecha de finalización"
+    },
+    "additionalDetails": {
+      "title": "Datos adicionales"
+    },
+    "prescribingDoctor": {
+      "label": "Médico que lo indicó",
+      "placeholder": "Ej: Dr. Pérez"
+    },
+    "notes": {
+      "label": "Notas"
+    },
+    "submit": "Registrar medicamento",
+    "errors": {
+      "medicationNameRequired": "El nombre del medicamento es requerido",
+      "doseQuantityRequired": "Debes indicar la dosis indicada por el médico",
+      "doseUnitRequired": "El tipo de dosis es un campo requerido"
     }
   }
 }
