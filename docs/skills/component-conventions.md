@@ -104,6 +104,31 @@ If a child ever grows complementary files or children of its own, promote it fro
 
 ---
 
+# Hooks
+
+When a component has its own custom hook(s) and that hook is used only by this component, it lives inside an internal folder named `hooks/`, the same way an only-used-here child component lives inside `components/`:
+
+```
+Calendar/
+  Calendar.tsx
+  Calendar.styles.ts
+  Calendar.types.ts
+  Calendar.utils.ts
+  index.tsx
+  hooks/
+    useCalendarSelection.ts
+  components/
+    CalendarCell.tsx
+```
+
+The logic is the same as child components: a hook inside `hooks/` is built out of its parent's own files, and consumes any util, helper, or constant it needs directly from the parent's `ComponentName.utils.ts`/`ComponentName.helpers.ts`/`ComponentName.constants.ts`, instead of duplicating that logic or data itself.
+
+## Promoting a hook
+
+If a hook's use could genuinely extend to other components — not "might be nice someday," but an actual second consumer — it no longer qualifies as scoped to this component. Promote it out of the internal `hooks/` folder into `src/hooks/` as a flat file (e.g. `src/hooks/useCalendarSelection.ts`), the same way a genuinely reusable child component gets promoted out of an internal `components/` folder into a top-level component.
+
+---
+
 # Complementary Files
 
 Any complementary file — styles, types, utils, helpers, constants, data, schema, or anything else that supports the component — is named after the **original/root** component, never after the file's own sub-folder:
@@ -121,6 +146,44 @@ ComponentName.data.ts
 These files always live at the root of the original component's folder — never inside the internal `components/` folder.
 
 Child components import from these root-level files instead of creating their own duplicate `styles`/`types`/etc. files. There is a single source of truth for a component and all of its children.
+
+---
+
+# Externalizing Logic and Data
+
+`ComponentName.tsx` should read quickly: structure, hooks, and JSX. Anything that can be pulled out into a complementary file — not just styles and types — should be, so the component itself stays as clean as possible. This applies just as much to constants, option lists, lookup tables, or any other static data as it does to functions: if it can be named and moved out instead of sitting inline in the component body, move it.
+
+## Utils: atomic functions
+
+A function belongs in `ComponentName.utils.ts` when it does exactly one thing — a single, self-contained unit of logic (a regex validator, a formatter, a single calculation) that doesn't call into any other function from the component's own files.
+
+```ts
+// ComponentName.utils.ts
+export function isValidPhoneNumber(value: string) {
+  return /^\+?[0-9]{7,15}$/.test(value);
+}
+```
+
+## Helpers: composed or complex logic
+
+A function belongs in `ComponentName.helpers.ts` when it composes two or more utils, or contains logic complex enough (branching, multiple steps) that it no longer reads as a single atomic operation.
+
+```ts
+// ComponentName.helpers.ts
+import { isValidCountryCode, isValidPhoneNumber } from "./ComponentName.utils";
+
+export function formatAndValidatePhoneNumber(countryCode: string, value: string) {
+  if (!isValidCountryCode(countryCode) || !isValidPhoneNumber(value)) {
+    return null;
+  }
+
+  return `${countryCode} ${value}`;
+}
+```
+
+## Not just functions
+
+The same principle applies to any non-rendering data living inside a component: option lists, lookup tables, default values, a magic number that deserves a name. Externalize it to `ComponentName.constants.ts` or `ComponentName.data.ts` instead of leaving it inline.
 
 ---
 
@@ -161,6 +224,7 @@ Child components under an internal `components/` folder do not need their own te
 
 - Folder and component names: PascalCase, matching the component's public name (`Calendar`, `Input`, `AppDateInput`).
 - Complementary file suffixes are always lowercase and consistent: `.styles.ts`, `.types.ts`, `.utils.ts`, `.helpers.ts`, `.constants.ts`, `.schema.ts`, `.data.ts`, `.test.tsx`.
+- Hook files: camelCase starting with `use` (`useCalendarSelection.ts`), whether inside a component's internal `hooks/` folder or, once promoted, as a flat file under `src/hooks/`.
 
 ---
 
@@ -178,6 +242,12 @@ Avoid:
 - A component shipped with no `ComponentName.test.tsx`.
 - A literal, hardcoded user-facing string anywhere in a component instead of an i18n translation key (see [`i18n.md`](i18n.md)).
 - Testing a component in a way it isn't actually used (e.g. rendering a component that requires a React Hook Form `control` prop on its own, instead of inside a `useForm()` test wrapper).
+- A single-purpose function (a regex validator, a formatter, a single calculation) written inline inside the component instead of extracted to `ComponentName.utils.ts`.
+- A function that composes multiple utils or contains multi-step/branching logic left inline inside the component instead of extracted to `ComponentName.helpers.ts`.
+- A constant, option list, lookup table, or other static data hardcoded inline inside the component body instead of extracted to `ComponentName.constants.ts`/`ComponentName.data.ts`.
+- A hook used only by one component placed directly in `src/hooks/`, or anywhere outside that component's own internal `hooks/` folder.
+- A hook inside a component's `hooks/` folder duplicating a util/helper/constant instead of importing it directly from the parent's complementary files.
+- A hook that's genuinely reusable across multiple components left inside a single component's internal `hooks/` folder instead of promoted to `src/hooks/`.
 
 ---
 
@@ -197,3 +267,7 @@ Before considering a component complete, verify that:
 - `ComponentName.test.tsx` exists at the component's root and covers rendering, user-facing behavior, and any error/validation states.
 - Every piece of user-facing text comes from an i18n translation key (`t()`), with no literal strings in the code (see [`i18n.md`](i18n.md)).
 - The component is tested the way it is actually consumed (e.g. through a `useForm()` wrapper when it needs a React Hook Form `control`), not rendered in isolation from requirements it depends on.
+- Every single-purpose function (e.g. a regex validator) lives in `ComponentName.utils.ts`; every function that composes multiple utils or contains more complex/branching logic lives in `ComponentName.helpers.ts` — none of it sits inline inside the component.
+- Constants, option lists, lookup tables, or other static data that don't need to live inline are extracted to `ComponentName.constants.ts` / `ComponentName.data.ts`.
+- Hooks used only by this component live inside an internal `hooks/` folder, and consume the parent's utils/helpers/constants directly instead of duplicating them.
+- Any hook that is or becomes reusable elsewhere lives as a flat file in `src/hooks/`, not nested inside a single component's internal `hooks/` folder.
