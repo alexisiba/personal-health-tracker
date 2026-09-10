@@ -67,7 +67,13 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
+function TestForm({
+  onSubmit,
+  required,
+}: {
+  onSubmit: (data: FormData) => void;
+  required?: boolean;
+}) {
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { unit: "" },
@@ -80,6 +86,7 @@ function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
         name="unit"
         label="Tipo"
         options={options}
+        required={required}
         testID="unit-dropdown"
       />
       <Text testID="submit" onPress={handleSubmit(onSubmit)}>
@@ -99,6 +106,12 @@ describe("AppDropdown", () => {
 
     expect(screen.getByText("Pastilla")).toBeOnTheScreen();
     expect(screen.getByText("Cápsula")).toBeOnTheScreen();
+  });
+
+  it("shows a red asterisk next to the label when required", async () => {
+    await render(<TestForm onSubmit={jest.fn()} required />);
+
+    expect(screen.getByText("Tipo *")).toBeOnTheScreen();
   });
 
   it("selects an option and submits its value through react-hook-form", async () => {

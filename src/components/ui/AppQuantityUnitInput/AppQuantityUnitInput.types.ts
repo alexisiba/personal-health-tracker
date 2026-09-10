@@ -6,6 +6,7 @@ export interface AppQuantityUnitInputProps<TFieldValues extends FieldValues> {
   quantityName: Path<TFieldValues>;
   unitName: Path<TFieldValues>;
   label: string;
+  required?: boolean;
   quantityPlaceholder?: string;
   options: Option[];
   // Suffixed into `${testID}-quantity` and `${testID}-unit` on the two inner inputs.

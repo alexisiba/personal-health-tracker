@@ -1,7 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import { useForm } from "react-hook-form";
 import { Text } from "react-native";
 import { PaperProvider } from "react-native-paper";
+import * as z from "zod";
 import { AppQuantityUnitInput } from ".";
 
 // See AppDropdown.test.tsx: react-native-paper-dropdown's real Menu never
@@ -48,13 +50,24 @@ const frequencyUnitOptions = [
   { label: "Días", value: "days" },
 ];
 
-type FormData = {
-  frequencyValue?: number;
-  frequencyUnit: string;
-};
+const schema = z.object({
+  frequencyValue: z
+    .number({ error: "La frecuencia es un campo requerido" })
+    .min(1, "La frecuencia es un campo requerido"),
+  frequencyUnit: z.string().min(1, "La unidad de frecuencia es un campo requerido"),
+});
 
-function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
+type FormData = z.infer<typeof schema>;
+
+function TestForm({
+  onSubmit,
+  required,
+}: {
+  onSubmit: (data: FormData) => void;
+  required?: boolean;
+}) {
   const { control, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: { frequencyValue: undefined, frequencyUnit: "" },
   });
 
@@ -65,6 +78,7 @@ function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
         quantityName="frequencyValue"
         unitName="frequencyUnit"
         label="Frecuencia:"
+        required={required}
         quantityPlaceholder="Eg: 1"
         options={frequencyUnitOptions}
         testID="frequency"
@@ -98,6 +112,44 @@ describe("AppQuantityUnitInput", () => {
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     expect(onSubmit.mock.calls[0][0]).toEqual({ frequencyValue: 8, frequencyUnit: "days" });
+  });
+
+  it("shows a red asterisk next to the label when required", async () => {
+    await render(<TestForm onSubmit={jest.fn()} required />);
+
+    expect(screen.getByText("Frecuencia: *")).toBeOnTheScreen();
+  });
+
+  it("shows the zod validation message and blocks submit when both fields are empty", async () => {
+    const onSubmit = jest.fn();
+    await render(<TestForm onSubmit={onSubmit} />);
+
+    await fireEvent.press(screen.getByTestId("submit"));
+
+    expect(
+      await screen.findByText("La frecuencia es un campo requerido"),
+    ).toBeOnTheScreen();
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("clears the validation message once both fields are filled in", async () => {
+    const onSubmit = jest.fn();
+    await render(<TestForm onSubmit={onSubmit} />);
+
+    await fireEvent.press(screen.getByTestId("submit"));
+    expect(
+      await screen.findByText("La frecuencia es un campo requerido"),
+    ).toBeOnTheScreen();
+
+    await fireEvent.changeText(screen.getByTestId("frequency-quantity"), "8");
+    await fireEvent.press(screen.getByTestId("frequency-unit"));
+    await fireEvent.press(screen.getByText("Días"));
+    await fireEvent.press(screen.getByTestId("submit"));
+
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
+    expect(
+      screen.queryByText("La frecuencia es un campo requerido"),
+    ).not.toBeOnTheScreen();
   });
 
   it("opens the unit dropdown, shows its options, and closes it on selection", async () => {

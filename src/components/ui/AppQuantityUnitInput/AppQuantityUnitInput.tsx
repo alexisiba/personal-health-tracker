@@ -1,8 +1,9 @@
+import { AppFieldLabel } from "@/components/ui/AppFieldLabel";
 import colors from "@/constants/colors";
 import spacing from "@/constants/spacing";
 import { FieldValues, useController } from "react-hook-form";
 import { View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
+import { HelperText, TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
 import { AppQuantityUnitInputProps } from "./AppQuantityUnitInput.types";
 
@@ -16,16 +17,24 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
   quantityName,
   unitName,
   label,
+  required,
   quantityPlaceholder,
   options,
   testID,
 }: AppQuantityUnitInputProps<TFieldValues>) {
-  const { field: quantityField } = useController({ control, name: quantityName });
-  const { field: unitField } = useController({ control, name: unitName });
+  const { field: quantityField, fieldState: quantityFieldState } = useController({
+    control,
+    name: quantityName,
+  });
+  const { field: unitField, fieldState: unitFieldState } = useController({
+    control,
+    name: unitName,
+  });
+  const error = quantityFieldState.error ?? unitFieldState.error;
 
   return (
     <View style={{ gap: spacing.sm, marginBottom: spacing.lg }}>
-      <Text>{label}</Text>
+      <AppFieldLabel label={label} required={required} />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TextInput
           testID={testID ? `${testID}-quantity` : undefined}
@@ -35,7 +44,8 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
             borderRadius: 0,
             borderTopLeftRadius: spacing.xs,
             borderBottomLeftRadius: spacing.xs,
-            borderColor: colors.gray400,
+            borderColor: quantityFieldState.error ? colors.error : colors.gray400,
+            borderWidth: quantityFieldState.error ? 2 : undefined,
             borderRightWidth: 0,
           }}
           value={quantityField.value == null ? "" : String(quantityField.value)}
@@ -43,6 +53,7 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
             quantityField.onChange(text === "" ? undefined : Number(text))
           }
           onBlur={quantityField.onBlur}
+          error={!!quantityFieldState.error}
         />
         <Dropdown
           testID={testID ? `${testID}-unit` : undefined}
@@ -54,7 +65,8 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
               {...innerProps}
               mode="outlined"
               outlineStyle={{
-                borderColor: colors.gray400,
+                borderColor: unitFieldState.error ? colors.error : colors.gray400,
+                borderWidth: unitFieldState.error ? 2 : undefined,
                 borderRadius: 0,
                 borderTopRightRadius: spacing.xs,
                 borderBottomRightRadius: spacing.xs,
@@ -71,10 +83,14 @@ export function AppQuantityUnitInput<TFieldValues extends FieldValues>({
               // TextInput doesn't recognize that prop name, so without this the box
               // never shows the selection (see AppDropdown, which does the same).
               value={innerProps.selectedLabel}
+              error={!!unitFieldState.error}
             />
           )}
         />
       </View>
+      <HelperText type="error" visible={!!error}>
+        {error?.message}
+      </HelperText>
     </View>
   );
 }

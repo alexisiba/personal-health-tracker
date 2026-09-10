@@ -1,5 +1,6 @@
+import { AppFieldLabel } from "@/components/ui/AppFieldLabel";
 import { Controller, FieldValues } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { HelperText } from "react-native-paper";
 import { DatePickerInput } from "react-native-paper-dates";
 import { appDateInputStyles } from "./AppDateInput.styles";
@@ -7,6 +8,7 @@ import { AppDateInputProps } from "./AppDateInput.types";
 
 export function AppDateInput<TFieldValues extends FieldValues>({
   label,
+  required,
   control,
   name,
   ...props
@@ -17,7 +19,7 @@ export function AppDateInput<TFieldValues extends FieldValues>({
       name={name}
       render={({ field: { onChange, onBlur, value }, fieldState }) => (
         <View>
-          <Text>{label}</Text>
+          <AppFieldLabel label={label} required={required} />
           <DatePickerInput
             mode="outlined"
             outlineStyle={

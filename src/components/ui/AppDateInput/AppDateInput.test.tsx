@@ -16,7 +16,13 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
+function TestForm({
+  onSubmit,
+  required,
+}: {
+  onSubmit: (data: FormData) => void;
+  required?: boolean;
+}) {
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { date: undefined },
@@ -30,6 +36,7 @@ function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
         label="Fecha"
         inputMode="start"
         locale="en"
+        required={required}
         testID="date-input"
       />
       <Text testID="submit" onPress={handleSubmit(onSubmit)}>
@@ -44,6 +51,12 @@ describe("AppDateInput", () => {
     await render(<TestForm onSubmit={jest.fn()} />);
 
     expect(screen.getByText("Fecha")).toBeOnTheScreen();
+  });
+
+  it("shows a red asterisk next to the label when required", async () => {
+    await render(<TestForm onSubmit={jest.fn()} required />);
+
+    expect(screen.getByText("Fecha *")).toBeOnTheScreen();
   });
 
   it("shows the zod validation message and blocks submit when no date is picked", async () => {

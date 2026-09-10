@@ -25,5 +25,54 @@
     "ovule_other": "Ovules",
     "unit_one": "Unit",
     "unit_other": "Units"
+  },
+  "frequencyUnits": {
+    "hour_one": "Hour",
+    "hour_other": "Hours",
+    "day_one": "Day",
+    "day_other": "Days",
+    "week_one": "Week",
+    "week_other": "Weeks",
+    "month_one": "Month",
+    "month_other": "Months"
+  },
+  "scheduledForm": {
+    "medicationName": {
+      "label": "Medication name",
+      "placeholder": "E.g: Paracetamol"
+    },
+    "dose": {
+      "label": "Dose prescribed by the doctor",
+      "quantityPlaceholder": "E.g: 1"
+    },
+    "frequency": {
+      "label": "Frequency",
+      "quantityPlaceholder": "E.g: 8"
+    },
+    "firstDoseDate": {
+      "label": "First dose"
+    },
+    "endDate": {
+      "label": "End date"
+    },
+    "additionalDetails": {
+      "title": "Additional details"
+    },
+    "prescribingDoctor": {
+      "label": "Prescribing doctor",
+      "placeholder": "E.g: Dr. Smith"
+    },
+    "notes": {
+      "label": "Notes"
+    },
+    "submit": "Register medication",
+    "errors": {
+      "medicationNameRequired": "The medication name is required",
+      "doseQuantityRequired": "You must indicate the dose prescribed by the doctor",
+      "doseUnitRequired": "The dose type is a required field",
+      "frequencyValueRequired": "The frequency value is a required field",
+      "frequencyUnitRequired": "The frequency unit is a required field",
+      "firstDoseDateRequired": "The first dose date is required"
+    }
   }
 }

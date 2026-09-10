@@ -1,5 +1,6 @@
+import { AppFieldLabel } from "@/components/ui/AppFieldLabel";
 import { Controller, FieldValues } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
 import { appDropdownStyles } from "./AppDropdown.styles";
@@ -7,6 +8,7 @@ import { AppDropdownProps } from "./AppDropdown.types";
 
 export function AppDropdown<TFieldValues extends FieldValues>({
   label,
+  required,
   control,
   name,
   ...props
@@ -21,7 +23,7 @@ export function AppDropdown<TFieldValues extends FieldValues>({
 
         return (
           <View>
-            <Text style={appDropdownStyles.label}>{label}</Text>
+            <AppFieldLabel label={label} required={required} style={appDropdownStyles.label} />
             <Dropdown
               {...props}
               mode="outlined"

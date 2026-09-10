@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import * as z from "zod";
 
 export const nonScheduledFormSchema = z.object({
@@ -7,24 +8,25 @@ export const nonScheduledFormSchema = z.object({
 });
 
 export const scheduledFormSchema = z.object({
-  medicationName: z.string().min(1, "El nombre del medicamento es requerido"),
+  medicationName: z
+    .string()
+    .min(1, t("medications:scheduledForm.errors.medicationNameRequired")),
   doseQuantity: z
-    .number()
-    .min(1, "Debes indicar la dosis indicada por el medico"),
-  doseUnit: z.string().min(1, "El tipo de medicamento es un campo requerido"),
+    .number({ error: t("medications:scheduledForm.errors.doseQuantityRequired") })
+    .min(1, t("medications:scheduledForm.errors.doseQuantityRequired")),
+  doseUnit: z
+    .string()
+    .min(1, t("medications:scheduledForm.errors.doseUnitRequired")),
   frequencyValue: z
-    .number()
-    .min(1, "El campo de frecuencia es un campo requerido"),
+    .number({ error: t("medications:scheduledForm.errors.frequencyValueRequired") })
+    .min(1, t("medications:scheduledForm.errors.frequencyValueRequired")),
   frequencyUnit: z
     .string()
-    .min(1, "El campo de frecuencia es un campo requerido"),
+    .min(1, t("medications:scheduledForm.errors.frequencyUnitRequired")),
   firstDoseDate: z.date({
-    error: "La fecha de la dosis es requerida",
+    error: t("medications:scheduledForm.errors.firstDoseDateRequired"),
   }),
-  firstDoseTime: z.date({
-    error: "La hora de la dosis es un campo requerido",
-  }),
-  routeOfAdministration: z.string(),
   endDate: z.date().optional(),
-  notes: z.string(),
+  prescribingDoctor: z.string().optional(),
+  notes: z.string().optional(),
 });

@@ -10,4 +10,5 @@ export interface AppTextInputProps<
   control: Control<TFieldValues>;
   label: string;
   name: Path<TFieldValues>; // 'Path' restringe el string a solo llaves válidas del schema
+  required?: boolean;
 }

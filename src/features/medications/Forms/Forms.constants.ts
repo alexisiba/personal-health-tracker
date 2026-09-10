@@ -18,6 +18,10 @@ export const DOSE_UNIT_KEYS = [
   "unit",
 ] as const;
 
+// Keys under the "medications" i18n namespace's `frequencyUnits`, each with
+// `_one`/`_other` plural forms (see src/i18n/locales/{en,es}/medications.json).
+export const FREQUENCY_UNIT_KEYS = ["hour", "day", "week", "month"] as const;
+
 export const FORM_OPTIONS: AppSegmentedButtonsOption[] = [
   {
     label: "Programado",

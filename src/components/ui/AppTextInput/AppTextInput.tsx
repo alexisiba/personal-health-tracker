@@ -1,11 +1,13 @@
+import { AppFieldLabel } from "@/components/ui/AppFieldLabel";
 import { Controller, FieldValues } from "react-hook-form";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
 import { appTextInputStyles } from "./AppTextInput.styles";
 import { AppTextInputProps } from "./AppTextInput.types";
 
 export function AppTextInput<TFieldValues extends FieldValues>({
   label,
+  required,
   control,
   name,
   ...props
@@ -16,7 +18,7 @@ export function AppTextInput<TFieldValues extends FieldValues>({
       name={name}
       render={({ field: { onChange, onBlur, value }, fieldState }) => (
         <View>
-          <Text style={appTextInputStyles.label}>{label}</Text>
+          <AppFieldLabel label={label} required={required} style={appTextInputStyles.label} />
           <TextInput
             {...props}
             mode="outlined"

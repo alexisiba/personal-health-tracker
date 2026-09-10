@@ -11,7 +11,13 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
+function TestForm({
+  onSubmit,
+  required,
+}: {
+  onSubmit: (data: FormData) => void;
+  required?: boolean;
+}) {
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { name: "" },
@@ -24,6 +30,7 @@ function TestForm({ onSubmit }: { onSubmit: (data: FormData) => void }) {
         name="name"
         label="Nombre"
         placeholder="Escribe tu nombre"
+        required={required}
         testID="name-input"
       />
       <Text testID="submit" onPress={handleSubmit(onSubmit)}>
@@ -53,6 +60,12 @@ describe("AppTextInput", () => {
 
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     expect(onSubmit.mock.calls[0][0]).toEqual({ name: "Alexis" });
+  });
+
+  it("shows a red asterisk next to the label when required", async () => {
+    await render(<TestForm onSubmit={jest.fn()} required />);
+
+    expect(screen.getByText("Nombre *")).toBeOnTheScreen();
   });
 
   it("shows the zod validation message and blocks submit when the field is invalid", async () => {

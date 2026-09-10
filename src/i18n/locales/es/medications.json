@@ -25,5 +25,54 @@
     "ovule_other": "Óvulos",
     "unit_one": "Unidad",
     "unit_other": "Unidades"
+  },
+  "frequencyUnits": {
+    "hour_one": "Hora",
+    "hour_other": "Horas",
+    "day_one": "Día",
+    "day_other": "Días",
+    "week_one": "Semana",
+    "week_other": "Semanas",
+    "month_one": "Mes",
+    "month_other": "Meses"
+  },
+  "scheduledForm": {
+    "medicationName": {
+      "label": "Nombre del medicamento",
+      "placeholder": "Ej: Paracetamol"
+    },
+    "dose": {
+      "label": "Dosis indicada por el médico",
+      "quantityPlaceholder": "Ej: 1"
+    },
+    "frequency": {
+      "label": "Frecuencia",
+      "quantityPlaceholder": "Ej: 8"
+    },
+    "firstDoseDate": {
+      "label": "Primera dosis"
+    },
+    "endDate": {
+      "label": "Fecha de finalización"
+    },
+    "additionalDetails": {
+      "title": "Detalles adicionales"
+    },
+    "prescribingDoctor": {
+      "label": "Médico que lo indicó",
+      "placeholder": "Ej: Dr. Pérez"
+    },
+    "notes": {
+      "label": "Notas"
+    },
+    "submit": "Registrar medicamento",
+    "errors": {
+      "medicationNameRequired": "El nombre del medicamento es requerido",
+      "doseQuantityRequired": "Debes indicar la dosis indicada por el médico",
+      "doseUnitRequired": "El tipo de dosis es un campo requerido",
+      "frequencyValueRequired": "El valor de la frecuencia es un campo requerido",
+      "frequencyUnitRequired": "La unidad de la frecuencia es un campo requerido",
+      "firstDoseDateRequired": "La fecha de la primera dosis es requerida"
+    }
   }
 }
