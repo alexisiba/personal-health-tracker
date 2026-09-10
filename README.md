@@ -12,6 +12,7 @@ The project is built with [Expo](https://docs.expo.dev/versions/v57.0.0/) (v57),
 - **Forms**: forms are handled with [React Hook Form](https://react-hook-form.com/), chosen over Formik for its better performance (fewer re-renders), which matters for an app with multiple forms (medications, appointments, directory, registration, etc.).
 - **Validation**: form validation is done with [Zod](https://zod.dev/), integrated with React Hook Form through `@hookform/resolvers`.
 - **Internationalization (i18n)**: the app supports multiple languages via `i18next` and `react-i18next`. Currently supported languages are **English** and **Spanish**.
+- **Testing**: tests are written with [Jest](https://jestjs.io/) using the [`jest-expo`](https://docs.expo.dev/develop/unit-testing/) preset, and components are tested with [React Native Testing Library](https://callstack.github.io/react-native-testing-library/).
 
 ## Installation
 
@@ -65,6 +66,14 @@ To lint the code with ESLint:
 npm run lint
 ```
 
+### Test
+
+To run the test suite with Jest:
+
+```bash
+npm run test
+```
+
 ## Project structure
 
 This project uses Expo Router's file-based routing. You can start developing by editing the files inside the `src/app` directory.
@@ -76,3 +85,6 @@ This project uses Expo Router's file-based routing. You can start developing by 
 - [React Hook Form documentation](https://react-hook-form.com/)
 - [Zod documentation](https://zod.dev/)
 - [i18next documentation](https://www.i18next.com/)
+- [Jest documentation](https://jestjs.io/)
+- [Expo unit testing guide (jest-expo)](https://docs.expo.dev/develop/unit-testing/)
+- [React Native Testing Library documentation](https://callstack.github.io/react-native-testing-library/)

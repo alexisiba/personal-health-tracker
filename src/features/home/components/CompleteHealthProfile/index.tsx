@@ -1,4 +1,4 @@
-import AppButton from "@/components/ui/AppButton";
+import { AppButton } from "@/components/ui/AppButton";
 import spacing from "@/constants/spacing";
 import colors from "@/constants/colors";
 import { useRouter } from "expo-router";

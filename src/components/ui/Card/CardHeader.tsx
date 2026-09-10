@@ -7,6 +7,6 @@ interface CardHeaderProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export default function CardHeader({ children, style }: CardHeaderProps) {
+export function CardHeader({ children, style }: CardHeaderProps) {
   return <View style={[cardStyles.header, style]}>{children}</View>;
 }

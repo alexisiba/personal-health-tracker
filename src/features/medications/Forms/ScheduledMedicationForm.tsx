@@ -1,14 +1,14 @@
+import { AppButton } from "@/components/ui/AppButton";
+import { AppTextInput } from "@/components/ui/AppTextInput";
+import colors from "@/constants/colors";
+import spacing from "@/constants/spacing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { scheduledFormSchema } from "./Forms.schema";
-import { ScheduledFormData } from "./Forms.types";
-import AppButton from "@/components/ui/AppButton";
-import AppTextInput from "@/components/ui/AppTextInput";
 import { Text, TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
-import spacing from "@/constants/spacing";
-import colors from "@/constants/colors";
+import { scheduledFormSchema } from "./Forms.schema";
+import { ScheduledFormData } from "./Forms.types";
 
 export default function ScheduledMedicationForm() {
   const { control, handleSubmit } = useForm<ScheduledFormData>({
@@ -75,9 +75,13 @@ export default function ScheduledMedicationForm() {
                   borderTopRightRadius: spacing.xs,
                   borderBottomRightRadius: spacing.xs,
                   borderLeftWidth: 0,
-                  paddingVertical: spacing.xs
+                  paddingVertical: spacing.xs,
                 }}
-                contentStyle={{borderLeftWidth: 1, borderLeftColor: colors.gray200, paddingVertical: spacing.xs}}
+                contentStyle={{
+                  borderLeftWidth: 1,
+                  borderLeftColor: colors.gray200,
+                  paddingVertical: spacing.xs,
+                }}
                 right={<TextInput.Icon icon="menu-down" />}
               />
             )}

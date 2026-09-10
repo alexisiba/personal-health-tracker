@@ -28,19 +28,29 @@ The purpose of `index.tsx` is to let consumers import the component by folder na
 Bad:
 
 ```ts
-import Calendar from "@/components/ui/Calendar/Calendar";
+import { Calendar } from "@/components/ui/Calendar/Calendar";
 ```
 
 Good:
 
 ```ts
-import Calendar from "@/components/ui/Calendar";
+import { Calendar } from "@/components/ui/Calendar";
 ```
 
-`index.tsx` should do nothing but re-export:
+Components are always exported as **named exports**, never as `export default`, in both `ComponentName.tsx` and `index.tsx`. This keeps the export name explicit everywhere (an import can't silently be renamed the way a default import can) and keeps every import in the codebase consistent.
+
+`ComponentName.tsx` exports the component as a named function:
 
 ```tsx
-export { default } from "./Calendar";
+export function Calendar(props: CalendarProps) {
+  // ...
+}
+```
+
+`index.tsx` should do nothing but re-export that same name:
+
+```tsx
+export { Calendar } from "./Calendar";
 ```
 
 All implementation logic, hooks, and JSX belong in `ComponentName.tsx`, never in `index.tsx`.
@@ -114,10 +124,37 @@ Child components import from these root-level files instead of creating their ow
 
 ---
 
+# Testing
+
+Every component must include its own test file, covering its correct behavior.
+
+The test file is a complementary file named after the component, `ComponentName.test.tsx`, living at the root of the component's folder — next to `ComponentName.tsx`, not inside the internal `components/` folder:
+
+```
+Calendar/
+  Calendar.tsx
+  Calendar.test.tsx
+  Calendar.styles.ts
+  Calendar.types.ts
+  index.tsx
+```
+
+Tests use Jest with the `jest-expo` preset and React Native Testing Library (see the README's Testing section). Render the component the way it is actually consumed, not in isolation — for example, a component that requires a React Hook Form `control` prop must be tested inside a small test-only wrapper that calls `useForm()` and passes real `control`/`handleSubmit`, since rendering it without one is not a supported use case and will not reflect how the component behaves in the app. See [`testing.md`](testing.md) for the concrete rules and library-specific gotchas to follow when writing the test itself.
+
+At minimum, a component's test should cover:
+
+- It renders correctly with the props it needs.
+- Its user-facing behavior works as intended (e.g. typing updates the value, pressing calls the expected handler, a selection updates the displayed option).
+- Its error/validation states are exercised, when the component has any (e.g. a validation error message is shown, and blocks whatever it should block).
+
+Child components under an internal `components/` folder do not need their own test file — they are exercised indirectly through their parent's tests, the same way they reuse the parent's `.styles.ts`/`.types.ts` instead of duplicating them.
+
+---
+
 # Naming
 
 - Folder and component names: PascalCase, matching the component's public name (`Calendar`, `Input`, `AppDateInput`).
-- Complementary file suffixes are always lowercase and consistent: `.styles.ts`, `.types.ts`, `.utils.ts`, `.helpers.ts`, `.constants.ts`, `.schema.ts`, `.data.ts`.
+- Complementary file suffixes are always lowercase and consistent: `.styles.ts`, `.types.ts`, `.utils.ts`, `.helpers.ts`, `.constants.ts`, `.schema.ts`, `.data.ts`, `.test.tsx`.
 
 ---
 
@@ -127,10 +164,13 @@ Avoid:
 
 - Implementation logic written directly inside `index.tsx` instead of in `ComponentName.tsx`.
 - Importing a component's implementation file directly (`.../Calendar/Calendar`) instead of through its folder (`.../Calendar`).
+- Exporting a component with `export default` instead of a named export (`export function ComponentName`).
 - A simple child (no complementary files, no children) given its own folder/`index.tsx` when a single file would do.
 - A child-only sub-component creating its own `.styles.ts`/`.types.ts`/etc. file that duplicates what the parent already exposes.
 - Complementary files (`.styles.ts`, `.types.ts`, ...) placed inside the internal `components/` folder instead of at the parent component's root.
 - A genuinely reusable component left hidden inside another component's internal `components/` folder instead of being promoted to a top-level component.
+- A component shipped with no `ComponentName.test.tsx`.
+- Testing a component in a way it isn't actually used (e.g. rendering a component that requires a React Hook Form `control` prop on its own, instead of inside a `useForm()` test wrapper).
 
 ---
 
@@ -139,11 +179,13 @@ Avoid:
 Before considering a component complete, verify that:
 
 - The folder name matches the component's name exactly.
-- `ComponentName.tsx` contains the implementation.
-- `index.tsx` only re-exports the component, with no logic of its own.
+- `ComponentName.tsx` contains the implementation, exported as a named export (`export function ComponentName`), never `export default`.
+- `index.tsx` only re-exports that same named export (`export { ComponentName } from "./ComponentName";`), with no logic of its own.
 - Sub-components used only by this component live inside an internal `components/` folder.
 - Simple children (no own complementary files, no children of their own) are single files directly inside `components/`.
 - Complex children (their own complementary files and/or their own children) have their own folder inside `components/`, following this same convention.
 - All styles, types, utils, and other complementary files are named `ComponentName.*` and live at the component's root.
 - Child components reuse the parent's complementary files instead of duplicating them.
 - Any component that is or becomes reusable elsewhere lives at the appropriate top level (global or feature), not nested inside another component's internal `components/` folder.
+- `ComponentName.test.tsx` exists at the component's root and covers rendering, user-facing behavior, and any error/validation states.
+- The component is tested the way it is actually consumed (e.g. through a `useForm()` wrapper when it needs a React Hook Form `control`), not rendered in isolation from requirements it depends on.

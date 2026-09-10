@@ -1,5 +1,5 @@
-import Card from "@/components/ui/Card";
-import CardHeader from "@/components/ui/Card/CardHeader";
+import { Card } from "@/components/ui/Card";
+import { CardHeader } from "@/components/ui/Card/CardHeader";
 import spacing from "@/constants/spacing";
 import colors from "@/constants/colors";
 import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
