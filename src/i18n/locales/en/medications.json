@@ -12,6 +12,7 @@
       "title": "Medications",
       "addButtonLabel": "Add medication"
     },
+    "loading": "Loading your medications",
     "empty": {
       "title": "Your medicine cabinet is empty",
       "description": "Register your medications to get timely reminders, track your doses, and keep your health under control effortlessly.",

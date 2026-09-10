@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, View } from "react-native";
-import { Text } from "react-native-paper";
+import { ActivityIndicator, Text } from "react-native-paper";
 import { NextMedicationCard } from "./components/NextMedicationCard";
 import { FORM_OPTIONS } from "./Forms/Forms.constants";
 
@@ -17,7 +17,7 @@ export default function Medications() {
     t,
     i18n: { language: locale },
   } = useTranslation("medications");
-  const { data: medications } = useLiveQuery(findAllMedicationsQuery());
+  const { data: medications, updatedAt } = useLiveQuery(findAllMedicationsQuery());
   const [selectedType, setSelectedType] = useState<"scheduled" | "non-scheduled">(
     "scheduled",
   );
@@ -35,6 +35,16 @@ export default function Medications() {
       );
     }
   };
+
+  // Wait for the first read so we don't briefly flash the empty state for
+  // medications that do exist, before the query has resolved.
+  if (!updatedAt) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator accessibilityLabel={t("list.loading")} />
+      </View>
+    );
+  }
 
   if (medications.length === 0) {
     return (

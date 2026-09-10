@@ -12,6 +12,7 @@
       "title": "Medicamentos",
       "addButtonLabel": "Agregar medicamento"
     },
+    "loading": "Cargando tus medicamentos",
     "empty": {
       "title": "Tu botiquín está vacío",
       "description": "Registra tus medicamentos para recibir recordatorios oportunos, realizar un seguimiento de tus dosis y mantener tu salud bajo control sin esfuerzo.",
