@@ -1,5 +1,11 @@
 import AppTabs from "@/components/navigation/AppTabs";
+import { StatusBar } from "react-native";
 
 export default function TabsLayout() {
-  return <AppTabs />;
+  return (
+    <>
+      <StatusBar barStyle="light-content" />
+      <AppTabs />
+    </>
+  );
 }
